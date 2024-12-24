@@ -2,12 +2,8 @@
   "version": 3,
   "routes": [
     {
-      "src": "/favicon.svg",
-      "dest": "/favicon.svg"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
     },
     {
       "src": "/assets/(.*)",
