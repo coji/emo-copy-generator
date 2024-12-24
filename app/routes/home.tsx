@@ -1,7 +1,7 @@
 import { experimental_useObject as useObject } from '@ai-sdk/react'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { XIcon } from 'lucide-react'
+import { LoaderCircleIcon, XIcon } from 'lucide-react'
 import { Form } from 'react-router'
 import { Header } from '~/components/layout/header'
 import { Main } from '~/components/layout/main'
@@ -61,14 +61,15 @@ export default function Home() {
         <div className="ml-auto flex items-center gap-4">
           <Button
             type="button"
+            disabled={isLoading}
             onClick={() => {
               form.update({
                 name: form.name,
                 value: {
                   productName: '神生ビール',
-                  productCategory: 'アルコール飲料',
+                  productCategory: '缶ビール',
                   brandImages: ['高級感', '若者向け', '女性向け'],
-                  targetUserImage: '20代サラリーマン男性',
+                  targetUserImage: '20代都心で働く女性',
                 },
               })
             }}
@@ -104,7 +105,7 @@ export default function Home() {
                 <Input
                   {...getInputProps(fields.productCategory, { type: 'text' })}
                   key={fields.productCategory.key}
-                  placeholder="例: アルコール飲料"
+                  placeholder="例: 缶ビール"
                 />
                 <div
                   id={fields.productCategory.errorId}
@@ -183,7 +184,10 @@ export default function Home() {
                   {fields.targetUserImage.errors}
                 </div>
               </div>
-              <Button type="submit">生成する</Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading && <LoaderCircleIcon className="animate-spin" />}
+                生成する
+              </Button>
             </Stack>
           </Form>
 
@@ -194,28 +198,32 @@ export default function Home() {
               </div>
             )}
 
-            <Table>
-              <TableBody>
-                {object?.title && (
-                  <TableRow>
-                    <TableCell>案1</TableCell>
-                    <TableCell>{object.title}</TableCell>
-                  </TableRow>
-                )}
-                {object?.shortPoemsInspiredByTheStory && (
-                  <TableRow>
-                    <TableCell>案2</TableCell>
-                    <TableCell>{object.shortPoemsInspiredByTheStory}</TableCell>
-                  </TableRow>
-                )}
-                {object?.theProtagonistsLastWords && (
-                  <TableRow>
-                    <TableCell>案3</TableCell>
-                    <TableCell>{object.theProtagonistsLastWords}</TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+            <div className="overflow-hidden">
+              <Table>
+                <TableBody>
+                  {object?.title && (
+                    <TableRow>
+                      <TableCell className="whitespace-nowrap">案1</TableCell>
+                      <TableCell>{object.title}</TableCell>
+                    </TableRow>
+                  )}
+                  {object?.shortPoemsInspiredByTheStory && (
+                    <TableRow>
+                      <TableCell className="whitespace-nowrap">案2</TableCell>
+                      <TableCell>
+                        {object.shortPoemsInspiredByTheStory}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  {object?.theProtagonistsLastWords && (
+                    <TableRow>
+                      <TableCell className="whitespace-nowrap">案3</TableCell>
+                      <TableCell>{object.theProtagonistsLastWords}</TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </Stack>
         </div>
       </Main>
