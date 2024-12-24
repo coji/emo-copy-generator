@@ -36,6 +36,7 @@ ${submission.brandImages.join(', ')}というイメージで、短編小説を�
 ストーリーを生成したあと、タイトル、主人公の最後の言葉、ストーリーにインスパイアされた短詩を生成してください。
 `,
     schema: outputSchema,
+    temperature: 0.5,
   })
 
   return result.toTextStreamResponse()
