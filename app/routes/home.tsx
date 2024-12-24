@@ -2,10 +2,21 @@ import { experimental_useObject as useObject } from '@ai-sdk/react'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { LoaderCircleIcon, XIcon } from 'lucide-react'
+import React from 'react'
 import { Form } from 'react-router'
 import { Header } from '~/components/layout/header'
 import { Main } from '~/components/layout/main'
 import { ThemeSwitch } from '~/components/theme-switch'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '~/components/ui/alert-dialog'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
@@ -46,9 +57,10 @@ export default function Home() {
     },
   })
   const brandImageList = fields.brandImages.getFieldList()
+  const [isResetAlertOpen, setIsResetAlertOpen] = React.useState(false)
 
   return (
-    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto] font-serif">
+    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto]">
       {/* ===== Top Heading ===== */}
       <Header>
         <HStack>
@@ -195,10 +207,49 @@ export default function Home() {
                   {fields.targetUserImage.errors}
                 </div>
               </Stack>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading && <LoaderCircleIcon className="animate-spin" />}
-                生成する
-              </Button>
+
+              <HStack>
+                <Button type="submit" disabled={isLoading} className="flex-1">
+                  {isLoading && <LoaderCircleIcon className="animate-spin" />}
+                  生成する
+                </Button>
+
+                <Button
+                  variant="link"
+                  type="button"
+                  onClick={() => setIsResetAlertOpen(true)}
+                >
+                  クリア
+                </Button>
+              </HStack>
+
+              <AlertDialog
+                open={isResetAlertOpen}
+                onOpenChange={setIsResetAlertOpen}
+              >
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      入力内容をクリアしますか？
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      この操作は取り消せません。
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>キャンセル</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={(e) => {
+                        e.preventDefault()
+                        form.reset()
+                        setIsResetAlertOpen(false)
+                      }}
+                    >
+                      クリア
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </Stack>
           </Form>
 

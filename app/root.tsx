@@ -55,7 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="font-serif">
         <Toaster closeButton richColors />
         <ThemeProvider attribute="class">{children}</ThemeProvider>
         <ScrollRestoration />
