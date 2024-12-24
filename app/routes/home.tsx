@@ -82,7 +82,7 @@ export default function Home() {
 
       {/* ===== Content ===== */}
       <Main fixed>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Form method="POST" {...getFormProps(form)} key={form.key}>
             <Stack>
               <div>
