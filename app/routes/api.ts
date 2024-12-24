@@ -6,7 +6,10 @@ import type { Route } from './+types/api'
 export const inputSchema = z.object({
   productName: z.string({ required_error: '必須' }),
   productCategory: z.string({ required_error: '必須' }),
-  brandImages: z.array(z.string()).min(1, '必須').max(3, '3つまで'),
+  brandImages: z
+    .array(z.string({ required_error: '必須' }))
+    .min(1, '必須')
+    .max(3, '3つまで'),
   targetUserImage: z.string({ required_error: '必須' }),
 })
 

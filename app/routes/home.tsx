@@ -15,7 +15,7 @@ import { cn } from '~/lib/utils'
 import type { Route } from './+types/api'
 import { inputSchema, outputSchema } from './api'
 
-const brandImagePlaceholders = ['高級感', '若者向け', '女性向け']
+const brandImagePlaceholders = ['例: 高級感', '例: 若者向け', '例: 女性向け']
 
 export const action = async ({ request }: Route.ActionArgs) => {
   const submission = parseWithZod(await request.formData(), {
