@@ -61,6 +61,8 @@ export default function Home() {
         <div className="ml-auto flex items-center gap-4">
           <Button
             type="button"
+            size="sm"
+            variant="secondary"
             disabled={isLoading}
             onClick={() => {
               form.update({
