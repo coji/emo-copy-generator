@@ -206,7 +206,7 @@ export default function Home() {
 
           <Stack className="mx-auto w-full max-w-md">
             {object?.novel && (
-              <div className="rounded-md border p-2 text-xs text-muted-foreground/50">
+              <div className="rounded-md border p-2 text-xs">
                 <div className="my-1 font-bold">ユーザーストーリー</div>
                 <div>{object.novel}</div>
               </div>
