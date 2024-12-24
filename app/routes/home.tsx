@@ -11,6 +11,7 @@ import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { HStack, Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
+import { cn } from '~/lib/utils'
 import type { Route } from './+types/api'
 import { inputSchema, outputSchema } from './api'
 
@@ -50,42 +51,52 @@ export default function Home() {
     <div className="grid min-h-dvh grid-rows-[auto,1fr,auto]">
       {/* ===== Top Heading ===== */}
       <Header>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">
+        <HStack>
+          <h1 className="flex-1 text-2xl font-bold tracking-tight">
             Emo Copy Generator
           </h1>
-          <p className="text-muted-foreground">
-            Generate emotional copy for your next project.
-          </p>
-        </div>
-        <div className="ml-auto flex items-center gap-4">
-          <Button
-            type="button"
-            size="sm"
-            variant="secondary"
-            disabled={isLoading}
-            onClick={() => {
-              form.update({
-                name: form.name,
-                value: {
-                  productName: '神生ビール',
-                  productCategory: '缶ビール',
-                  brandImages: ['高級感', '若者向け', '女性向け'],
-                  targetUserImage: '20代都心で働く女性',
-                },
-              })
-            }}
-          >
-            サンプル入力
-          </Button>
-          <ThemeSwitch />
-        </div>
+          <div className="ml-auto flex items-center gap-4">
+            <Button
+              type="button"
+              size="sm"
+              variant="secondary"
+              disabled={isLoading}
+              onClick={() => {
+                form.update({
+                  name: form.name,
+                  value: {
+                    productName: '神生ビール',
+                    productCategory: '缶ビール',
+                    brandImages: ['高級感', '若者向け', '女性向け'],
+                    targetUserImage: '20代都心で働く女性',
+                  },
+                })
+              }}
+            >
+              サンプル入力
+            </Button>
+            <ThemeSwitch />
+          </div>
+        </HStack>
+        <p className="text-muted-foreground">
+          Generate emotional copy for your next project.
+        </p>
       </Header>
 
       {/* ===== Content ===== */}
       <Main fixed>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Form method="POST" {...getFormProps(form)} key={form.key}>
+        <div
+          className={cn(
+            'grid grid-cols-1 gap-4 transition-transform duration-200',
+            object && 'sm:grid-cols-2',
+          )}
+        >
+          <Form
+            method="POST"
+            {...getFormProps(form)}
+            key={form.key}
+            className="mx-auto w-full max-w-md"
+          >
             <Stack>
               <div>
                 <Label htmlFor={fields.productName.id}>商品名</Label>
@@ -193,10 +204,11 @@ export default function Home() {
             </Stack>
           </Form>
 
-          <Stack>
+          <Stack className="mx-auto w-full max-w-md">
             {object?.novel && (
-              <div className="text-xs text-muted-foreground/50">
-                {object.novel}
+              <div className="rounded-md border p-2 text-xs text-muted-foreground/50">
+                <div className="my-1 font-bold">ユーザーストーリー</div>
+                <div>{object.novel}</div>
               </div>
             )}
 
@@ -209,17 +221,28 @@ export default function Home() {
                       <TableCell>{object.title}</TableCell>
                     </TableRow>
                   )}
-                  {object?.shortPoemsInspiredByTheStory && (
-                    <TableRow>
-                      <TableCell className="whitespace-nowrap">案2</TableCell>
-                      <TableCell>
-                        {object.shortPoemsInspiredByTheStory}
-                      </TableCell>
-                    </TableRow>
-                  )}
+                  {object?.shortPoemsInspiredByTheStory
+                    ?.split('。')
+                    .map((poem, index) => {
+                      if (poem === '') return null
+                      return (
+                        <TableRow key={poem}>
+                          <TableCell className="whitespace-nowrap">
+                            案{index + 2}
+                          </TableCell>
+                          <TableCell>{poem}。</TableCell>
+                        </TableRow>
+                      )
+                    })}
+
                   {object?.theProtagonistsLastWords && (
                     <TableRow>
-                      <TableCell className="whitespace-nowrap">案3</TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        案
+                        {(object?.shortPoemsInspiredByTheStory
+                          ?.split('。')
+                          .filter((s) => s !== '').length ?? 1) + 2}
+                      </TableCell>
                       <TableCell>{object.theProtagonistsLastWords}</TableCell>
                     </TableRow>
                   )}

@@ -17,10 +17,6 @@ export const outputSchema = z.object({
   shortPoemsInspiredByTheStory: z.string(),
 })
 
-export const loader = () => {
-  return Response.json('hoge')
-}
-
 export const action = async ({ request }: Route.ActionArgs) => {
   const json = await request.json()
   const submission = inputSchema.parse(json)
@@ -33,7 +29,10 @@ ${submission.productCategory}が登場しつつ、
 ${submission.brandImages.join(', ')}というイメージで、短編小説を執筆してください。
 主人公は${submission.targetUserImage}です。
 
-ストーリーを生成したあと、タイトル、主人公の最後の言葉、ストーリーにインスパイアされた短詩を生成してください。
+ストーリーを生成したあと、以下を生成してください。
+1. タイトル
+2. 主人公の最後の言葉
+3. ストーリーにインスパイアされた、句点で区切られた3行短詩
 `,
     schema: outputSchema,
     temperature: 0.5,
