@@ -47,7 +47,7 @@ export default function Home() {
   const brandImageList = fields.brandImages.getFieldList()
 
   return (
-    <div>
+    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto]">
       {/* ===== Top Heading ===== */}
       <Header>
         <div>
@@ -227,6 +227,22 @@ export default function Home() {
           </Stack>
         </div>
       </Main>
+
+      <footer className="py-2 text-center text-sm text-muted-foreground">
+        <div>© {new Date().getFullYear()}</div>
+        <HStack className="justify-center">
+          <div>
+            <a
+              href="https://github.com/coji/emo-copy-generator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </HStack>
+      </footer>
     </div>
   )
 }
