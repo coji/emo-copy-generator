@@ -25,6 +25,19 @@ export function meta(): Route.MetaDescriptors {
 }
 
 export const links: Route.LinksFunction = () => [
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.googleapis.com',
+  },
+  {
+    rel: 'preconnect',
+    href: 'https://fonts.gstatic.com',
+    crossOrigin: 'anonymous',
+  },
+  {
+    href: 'https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap',
+    rel: 'stylesheet',
+  },
   { rel: 'stylesheet', href: stylesheet },
 ]
 

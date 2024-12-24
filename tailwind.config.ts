@@ -70,6 +70,9 @@ export default {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      fontFamily: {
+        serif: ['Shippori Mincho'],
+      },
     },
   },
   plugins: [tailwindCssAnimate],

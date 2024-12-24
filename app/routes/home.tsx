@@ -48,13 +48,11 @@ export default function Home() {
   const brandImageList = fields.brandImages.getFieldList()
 
   return (
-    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto]">
+    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto] font-serif">
       {/* ===== Top Heading ===== */}
       <Header>
         <HStack>
-          <h1 className="flex-1 text-2xl font-bold tracking-tight">
-            Emo Copy Generator
-          </h1>
+          <h1 className="flex-1 text-2xl font-bold">Emo Copy Generator</h1>
           <div className="ml-auto flex items-center gap-4">
             <Button
               type="button"
@@ -98,7 +96,7 @@ export default function Home() {
             className="mx-auto w-full max-w-md"
           >
             <Stack>
-              <div>
+              <Stack gap="sm">
                 <Label htmlFor={fields.productName.id}>商品名</Label>
                 <Input
                   {...getInputProps(fields.productName, { type: 'text' })}
@@ -111,9 +109,9 @@ export default function Home() {
                 >
                   {fields.productName.errors}
                 </div>
-              </div>
+              </Stack>
 
-              <div>
+              <Stack gap="sm">
                 <Label htmlFor={fields.productCategory.id}>商品カテゴリ</Label>
                 <Input
                   {...getInputProps(fields.productCategory, { type: 'text' })}
@@ -126,13 +124,13 @@ export default function Home() {
                 >
                   {fields.productCategory.errors}
                 </div>
-              </div>
+              </Stack>
 
-              <div>
+              <Stack gap="sm">
                 <Label htmlFor={fields.brandImages.id}>
                   ブランドイメージ (3つまで)
                 </Label>
-                <Stack>
+                <Stack gap="sm">
                   {brandImageList.map((field, index) => (
                     <div key={field.key}>
                       <HStack>
@@ -179,9 +177,9 @@ export default function Home() {
                 >
                   {fields.brandImages.errors}
                 </div>
-              </div>
+              </Stack>
 
-              <div>
+              <Stack gap="sm">
                 <Label htmlFor={fields.targetUserImage.id}>
                   ターゲットユーザーのイメージ
                 </Label>
@@ -196,7 +194,7 @@ export default function Home() {
                 >
                   {fields.targetUserImage.errors}
                 </div>
-              </div>
+              </Stack>
               <Button type="submit" disabled={isLoading}>
                 {isLoading && <LoaderCircleIcon className="animate-spin" />}
                 生成する
@@ -205,13 +203,6 @@ export default function Home() {
           </Form>
 
           <Stack className="mx-auto w-full max-w-md">
-            {object?.novel && (
-              <div className="rounded-md border p-2 text-xs">
-                <div className="my-1 font-bold">ユーザーストーリー</div>
-                <div>{object.novel}</div>
-              </div>
-            )}
-
             <div className="overflow-hidden">
               <Table>
                 <TableBody>
@@ -249,6 +240,13 @@ export default function Home() {
                 </TableBody>
               </Table>
             </div>
+
+            {object?.novel && (
+              <div className="rounded-md border p-2 text-xs">
+                <div className="my-1">ユーザーストーリー</div>
+                <div className="leading-relaxed">{object.novel}</div>
+              </div>
+            )}
           </Stack>
         </div>
       </Main>
