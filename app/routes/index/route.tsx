@@ -91,12 +91,11 @@ export default function Home() {
         </p>
       </Header>
 
-      {/* ===== Content ===== */}
       <Main fixed>
         <Stack
           className={cn(
-            'grid grid-cols-1 gap-4 transition-transform duration-200',
-            object && 'md:grid-cols-[1fr,2fr,1fr]',
+            'grid grid-cols-1 gap-0',
+            object && 'gap-4 md:grid-cols-[1fr,2fr,1fr]',
           )}
         >
           <Stack>
