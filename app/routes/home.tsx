@@ -1,7 +1,7 @@
 import { experimental_useObject as useObject } from '@ai-sdk/react'
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import { LoaderCircleIcon, XIcon } from 'lucide-react'
+import { ChevronDownIcon, LoaderCircleIcon, XIcon } from 'lucide-react'
 import React from 'react'
 import { Form } from 'react-router'
 import { Header } from '~/components/layout/header'
@@ -18,10 +18,17 @@ import {
   AlertDialogTitle,
 } from '~/components/ui/alert-dialog'
 import { Button } from '~/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { HStack, Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
+import examples from '~/data/example.json'
 import { cn } from '~/lib/utils'
 import type { Route } from './+types/api'
 import { inputSchema, outputSchema } from './api'
@@ -52,39 +59,54 @@ export default function Home() {
     onSubmit: (event, { submission }) => {
       event.preventDefault()
       if (submission?.status !== 'success') return
-      console.log(submission)
       submit(submission.value)
     },
   })
   const brandImageList = fields.brandImages.getFieldList()
   const [isResetAlertOpen, setIsResetAlertOpen] = React.useState(false)
 
+  // コピー案をまとめる
+  const copyCandidates = [
+    object?.title,
+    ...(object?.shortPoemsInspiredByTheStory?.split('。') ?? []),
+    object?.theProtagonistsLastWords,
+  ]
+    .filter((s) => s !== undefined && s !== '')
+    .map((s) => (s?.endsWith('。') ? s : `${s}。`)) // 最後が。で終わらない場合は。を追加
+
   return (
     <div className="grid min-h-dvh grid-rows-[auto,1fr,auto]">
-      {/* ===== Top Heading ===== */}
       <Header>
         <HStack>
           <h1 className="flex-1 text-2xl font-bold">Emo Copy Generator</h1>
           <div className="ml-auto flex items-center gap-4">
-            <Button
-              type="button"
-              size="sm"
-              variant="secondary"
-              disabled={isLoading}
-              onClick={() => {
-                form.update({
-                  name: form.name,
-                  value: {
-                    productName: '神生ビール',
-                    productCategory: '缶ビール',
-                    brandImages: ['高級感', '若者向け', '女性向け'],
-                    targetUserImage: '20代都心で働く女性',
-                  },
-                })
-              }}
-            >
-              サンプル入力
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="secondary" size="sm">
+                  サンプル入力
+                  <ChevronDownIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {examples.map((ex) => {
+                  return (
+                    <DropdownMenuItem
+                      key={`${ex.productName}_${ex.productCategory}`}
+                      onClick={() => {
+                        form.update({
+                          name: form.name,
+                          value: ex,
+                        })
+                      }}
+                      className="text-xs"
+                    >
+                      {ex.productName} - {ex.productCategory}
+                    </DropdownMenuItem>
+                  )
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <ThemeSwitch />
           </div>
         </HStack>
@@ -198,7 +220,7 @@ export default function Home() {
                 <Input
                   {...getInputProps(fields.targetUserImage, { type: 'text' })}
                   key={fields.targetUserImage.key}
-                  placeholder={'例: 20代サラリーマン男性'}
+                  placeholder={'例: 20代都心で働く女性'}
                 />
                 <div
                   id={fields.targetUserImage.errorId}
@@ -257,37 +279,14 @@ export default function Home() {
             <div className="overflow-hidden">
               <Table>
                 <TableBody>
-                  {object?.title && (
-                    <TableRow>
-                      <TableCell className="whitespace-nowrap">案1</TableCell>
-                      <TableCell>{object.title}</TableCell>
-                    </TableRow>
-                  )}
-                  {object?.shortPoemsInspiredByTheStory
-                    ?.split('。')
-                    .map((poem, index) => {
-                      if (poem === '') return null
-                      return (
-                        <TableRow key={poem}>
-                          <TableCell className="whitespace-nowrap">
-                            案{index + 2}
-                          </TableCell>
-                          <TableCell>{poem}。</TableCell>
-                        </TableRow>
-                      )
-                    })}
-
-                  {object?.theProtagonistsLastWords && (
-                    <TableRow>
+                  {copyCandidates.map((copy, index) => (
+                    <TableRow key={copy}>
                       <TableCell className="whitespace-nowrap">
-                        案
-                        {(object?.shortPoemsInspiredByTheStory
-                          ?.split('。')
-                          .filter((s) => s !== '').length ?? 1) + 2}
+                        案{index + 1}
                       </TableCell>
-                      <TableCell>{object.theProtagonistsLastWords}</TableCell>
+                      <TableCell>{copy}</TableCell>
                     </TableRow>
-                  )}
+                  ))}
                 </TableBody>
               </Table>
             </div>

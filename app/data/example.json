@@ -1,0 +1,20 @@
+[
+  {
+    "productName": "神生ビール",
+    "productCategory": "缶ビール",
+    "brandImages": ["高級感", "若者向け", "女性向け"],
+    "targetUserImage": "20代都心で働く女性"
+  },
+  {
+    "productName": "アストラル",
+    "productCategory": "電気自動車",
+    "brandImages": ["最先端", "超高級", "スポーティ"],
+    "targetUserImage": "30代~60代の富裕層"
+  },
+  {
+    "productName": "Luna",
+    "productCategory": "スマートフォン",
+    "brandImages": ["最先端", "仲間内で楽しい", "女性向け"],
+    "targetUserImage": "10代後半~20代前半のZ世代女性"
+  }
+]
