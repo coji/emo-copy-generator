@@ -177,10 +177,13 @@ export default function Home() {
                           variant="ghost"
                           size="sm"
                           className="text-muted-foreground"
-                          {...form.remove.getButtonProps({
-                            name: fields.brandImages.name,
-                            index,
-                          })}
+                          type="button"
+                          onClick={() => {
+                            form.remove({
+                              name: fields.brandImages.name,
+                              index,
+                            })
+                          }}
                         >
                           <XIcon />
                         </Button>
@@ -195,9 +198,12 @@ export default function Home() {
                   ))}
 
                   <Button
-                    {...form.insert.getButtonProps({
-                      name: fields.brandImages.name,
-                    })}
+                    type="button"
+                    onClick={() => {
+                      form.insert({
+                        name: fields.brandImages.name,
+                      })
+                    }}
                     variant="outline"
                     size="sm"
                     disabled={brandImageList.length >= 3}
