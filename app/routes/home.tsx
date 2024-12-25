@@ -308,7 +308,17 @@ export default function Home() {
       </Main>
 
       <footer className="py-2 text-center text-sm text-muted-foreground">
-        <div>© {new Date().getFullYear()}</div>
+        <div>
+          © {new Date().getFullYear()}{' '}
+          <a
+            href="https://x.com/techtalkjp"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:underline"
+          >
+            coji
+          </a>
+        </div>
         <HStack className="justify-center">
           <div>
             <a
