@@ -92,14 +92,14 @@ export default function Home() {
       </Header>
 
       <Main fixed>
-        <Stack
+        <div
           className={cn(
             'grid grid-cols-1 gap-0',
-            object && 'gap-4 md:grid-cols-[1fr,2fr,1fr]',
+            object && 'gap-4 md:grid-cols-[1fr,2fr,1fr] md:gap-8',
           )}
         >
           <Stack>
-            {object && <h2>初期設定</h2>}
+            <h2 className="mx-auto w-full max-w-md">初期設定</h2>
             <GenerationForm
               defaultValue={defaultValue}
               isLoading={isLoading}
@@ -108,36 +108,40 @@ export default function Home() {
             />
           </Stack>
 
-          {object?.novel && (
-            <Stack>
-              <h2>ユーザーストーリー</h2>
-              <Stack
-                gap="lg"
-                className="rounded-md border p-2 text-sm leading-relaxed"
-              >
-                <ReactMarkdown>{object.novel}</ReactMarkdown>
-              </Stack>
-            </Stack>
-          )}
+          <Stack>
+            {object?.novel && (
+              <>
+                <h2>ユーザーストーリー</h2>
+                <Stack
+                  gap="lg"
+                  className="rounded-xl border p-8 text-sm leading-relaxed"
+                >
+                  <ReactMarkdown>{object.novel}</ReactMarkdown>
+                </Stack>
+              </>
+            )}
+          </Stack>
 
-          {copyCandidates.length > 0 && (
-            <Stack>
-              <h2>コピー案</h2>
-              <Table>
-                <TableBody>
-                  {copyCandidates.map((copy, index) => (
-                    <TableRow key={copy}>
-                      <TableCell className="whitespace-nowrap">
-                        {index + 1}.
-                      </TableCell>
-                      <TableCell>{copy}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Stack>
-          )}
-        </Stack>
+          <Stack>
+            {copyCandidates.length > 0 && (
+              <>
+                <h2>コピー案</h2>
+                <Table>
+                  <TableBody>
+                    {copyCandidates.map((copy, index) => (
+                      <TableRow key={copy}>
+                        <TableCell className="whitespace-nowrap">
+                          {index + 1}.
+                        </TableCell>
+                        <TableCell>{copy}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </>
+            )}
+          </Stack>
+        </div>
       </Main>
 
       <Footer />
