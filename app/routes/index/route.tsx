@@ -54,7 +54,7 @@ export default function Home() {
     .map((s) => (s?.endsWith('。') ? s : `${s}。`)) // 最後が。で終わらない場合は。を追加
 
   return (
-    <div className="container grid min-h-dvh grid-rows-[auto,1fr,auto]">
+    <div className="grid min-h-dvh grid-rows-[auto,1fr,auto] md:container">
       <Header>
         <HStack>
           <h1 className="flex-1 text-2xl font-bold">Emo Copy Generator</h1>
