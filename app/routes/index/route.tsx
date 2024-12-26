@@ -34,6 +34,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 }
 
 export default function Home() {
+  const [isGenerated, setIsGenerated] = useState(false)
   const [defaultValue, setDefaultValue] = useState<
     Partial<z.infer<typeof inputSchema>>
   >({
@@ -46,8 +47,8 @@ export default function Home() {
 
   // コピー案をまとめる
   const copyCandidates = [
-    object?.title,
     ...(object?.shortPoemsInspiredByTheStory?.split('。') ?? []),
+    object?.title,
     object?.theProtagonistsLastWords,
   ]
     .filter((s) => s !== undefined && s !== '')
@@ -95,7 +96,7 @@ export default function Home() {
         <div
           className={cn(
             'grid grid-cols-1 gap-0',
-            object && 'gap-4 md:grid-cols-[1fr,3fr,2fr] md:gap-8',
+            isGenerated && 'gap-4 md:grid-cols-[auto,2fr,2fr] md:gap-8',
           )}
         >
           <Stack>
@@ -104,45 +105,46 @@ export default function Home() {
               defaultValue={defaultValue}
               isLoading={isLoading}
               onStop={stop}
-              onSubmit={(values) => submit(values)}
+              onSubmit={(values) => {
+                submit(values)
+                setIsGenerated(true)
+              }}
             />
           </Stack>
 
-          <Stack>
-            {object?.novel && (
-              <>
-                <h2>ユーザーストーリー</h2>
+          {isGenerated && (
+            <Stack>
+              <h2>ユーザーストーリー</h2>
+              {object && (
                 <Stack
                   gap="lg"
                   className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
                 >
                   <ReactMarkdown>{object.novel}</ReactMarkdown>
                 </Stack>
-              </>
-            )}
-          </Stack>
+              )}
+            </Stack>
+          )}
 
-          <Stack>
-            {copyCandidates.length > 0 && (
-              <>
-                <h2>コピー案</h2>
-                <Table>
-                  <TableBody>
-                    {copyCandidates.map((copy, index) => (
-                      <TableRow key={copy}>
-                        <TableCell className="whitespace-nowrap">
-                          {index + 1}.
-                        </TableCell>
-                        <TableCell className="animate-fadeIn text-2xl">
-                          {copy}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </>
-            )}
-          </Stack>
+          {isGenerated && (
+            <Stack>
+              <h2>コピー案</h2>
+              <Table>
+                <TableBody>
+                  {copyCandidates.map((copy, index) => (
+                    <TableRow key={copy}>
+                      <TableCell className="whitespace-nowrap">
+                        {index + 1}.
+                      </TableCell>
+                      <TableCell className="animate-fadeIn text-2xl">
+                        {copy}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Stack>
+          )}
         </div>
       </Main>
 
