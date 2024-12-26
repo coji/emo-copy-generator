@@ -95,7 +95,7 @@ export default function Home() {
         <div
           className={cn(
             'grid grid-cols-1 gap-0',
-            object && 'gap-4 md:grid-cols-[1fr,2fr,1fr] md:gap-8',
+            object && 'gap-4 md:grid-cols-[1fr,3fr,2fr] md:gap-8',
           )}
         >
           <Stack>
@@ -114,7 +114,7 @@ export default function Home() {
                 <h2>ユーザーストーリー</h2>
                 <Stack
                   gap="lg"
-                  className="rounded-xl border p-8 text-sm leading-relaxed"
+                  className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
                 >
                   <ReactMarkdown>{object.novel}</ReactMarkdown>
                 </Stack>
@@ -133,7 +133,9 @@ export default function Home() {
                         <TableCell className="whitespace-nowrap">
                           {index + 1}.
                         </TableCell>
-                        <TableCell>{copy}</TableCell>
+                        <TableCell className="animate-fadeIn text-2xl">
+                          {copy}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
