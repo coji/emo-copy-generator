@@ -118,7 +118,7 @@ export default function Home() {
               {object && (
                 <Stack
                   gap="lg"
-                  className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
+                  className="rounded-xl border p-8 text-sm leading-relaxed [&>p]:animate-fadeIn"
                 >
                   <ReactMarkdown>{object.novel}</ReactMarkdown>
                 </Stack>
