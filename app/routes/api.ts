@@ -14,7 +14,6 @@ export const inputSchema = z.object({
     .min(1, '必須')
     .max(3, '3つまで'),
   targetUserImage: z.string({ required_error: '必須' }),
-  // model: z.literal('2.0-flash-lite', '2.0-flash', '2.0-flash'),
 })
 
 export const outputSchema = z.object({
