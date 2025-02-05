@@ -14,13 +14,16 @@ export const inputSchema = z.object({
     .min(1, '必須')
     .max(3, '3つまで'),
   targetUserImage: z.string({ required_error: '必須' }),
+  // model: z.literal('2.0-flash-lite', '2.0-flash', '2.0-flash'),
 })
 
 export const outputSchema = z.object({
   novel: z.string(),
   title: z.string(),
   theProtagonistsLastWords: z.string(),
-  shortPoemsInspiredByTheStory: z.string(),
+  shortPoemsInspiredByTheStory: z.string({
+    description: '日本語の句点「。」で区切られた3行短詩',
+  }),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -42,15 +45,19 @@ ${submission.productCategory}が登場する、
 
 短編小説は本文のみで Markdown 形式で段落ごとに分けて記述してください。
 `
-  const modelName: string = 'gemini-2.0-flash-exp'
+  const modelName: Parameters<typeof google>[0] = 'gemini-2.0-pro-exp-02-05'
   const temperature: number = 0.5
 
   const result = await streamObject({
-    model: google('gemini-2.0-flash-lite-preview-02-05'),
+    model: google(modelName, {
+      structuredOutputs: false,
+    }),
     prompt,
     schema: outputSchema,
     temperature,
+    abortSignal: request.signal,
     onFinish: async (event) => {
+      console.log(event)
       await db
         .insertInto('generationLogs')
         .values({
