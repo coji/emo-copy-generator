@@ -46,7 +46,7 @@ ${submission.productCategory}が登場する、
   const temperature: number = 0.5
 
   const result = await streamObject({
-    model: google('gemini-2.0-flash-exp'),
+    model: google('gemini-2.0-flash-lite-preview-02-05'),
     prompt,
     schema: outputSchema,
     temperature,
