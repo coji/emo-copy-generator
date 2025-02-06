@@ -32,7 +32,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
 ${submission.brandImages.join(', ')}というイメージで、
 ${submission.productCategory}が登場する、
-短編小説を執筆してください。
+まるで人間交差点のような、エモーショナルな短編小説を執筆してください。
 
 主人公は${submission.targetUserImage}です。
 
