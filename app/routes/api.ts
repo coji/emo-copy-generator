@@ -56,7 +56,6 @@ ${submission.productCategory}が登場する、
     temperature,
     abortSignal: request.signal,
     onFinish: async (event) => {
-      console.log(event)
       await db
         .insertInto('generationLogs')
         .values({
