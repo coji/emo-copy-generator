@@ -1,11 +1,7 @@
 @import 'tailwindcss';
-
-@custom-variant dark (&:is(.dark *));
-
-@plugin 'tailwindcss-animate';
+@import 'tw-animate-css';
 
 :root {
-
   --radius: 0.625rem;
 
   --background: oklch(1 0 0);
@@ -72,7 +68,6 @@
 }
 
 .dark {
-
   --background: oklch(0.129 0.042 264.695);
 
   --foreground: oklch(0.984 0.003 247.858);
@@ -137,7 +132,6 @@
 }
 
 @theme inline {
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -207,6 +201,26 @@
   --color-sidebar-border: var(--sidebar-border);
 
   --color-sidebar-ring: var(--sidebar-ring);
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 @layer base {

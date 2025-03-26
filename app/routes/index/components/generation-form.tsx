@@ -70,7 +70,7 @@ export const GenerationForm = ({
               />
               <div
                 id={fields.productName.errorId}
-                className="text-sm text-destructive empty:hidden"
+                className="text-destructive text-sm empty:hidden"
               >
                 {fields.productName.errors}
               </div>
@@ -85,7 +85,7 @@ export const GenerationForm = ({
               />
               <div
                 id={fields.productCategory.errorId}
-                className="text-sm text-destructive empty:hidden"
+                className="text-destructive text-sm empty:hidden"
               >
                 {fields.productCategory.errors}
               </div>
@@ -121,7 +121,7 @@ export const GenerationForm = ({
                     </HStack>
                     <div
                       id={field.errorId}
-                      className="text-sm text-destructive empty:hidden"
+                      className="text-destructive text-sm empty:hidden"
                     >
                       {field.errors}
                     </div>
@@ -145,7 +145,7 @@ export const GenerationForm = ({
               </Stack>
               <div
                 id={fields.brandImages.errorId}
-                className="text-sm text-destructive empty:hidden"
+                className="text-destructive text-sm empty:hidden"
               >
                 {fields.brandImages.errors}
               </div>
@@ -162,7 +162,7 @@ export const GenerationForm = ({
               />
               <div
                 id={fields.targetUserImage.errorId}
-                className="text-sm text-destructive empty:hidden"
+                className="text-destructive text-sm empty:hidden"
               >
                 {fields.targetUserImage.errors}
               </div>

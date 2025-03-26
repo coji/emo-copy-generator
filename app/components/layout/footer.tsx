@@ -2,7 +2,7 @@ import { HStack } from '../ui/stack'
 
 export const Footer = () => {
   return (
-    <footer className="py-2 text-center text-sm text-muted-foreground">
+    <footer className="text-muted-foreground py-2 text-center text-sm">
       <div>
         © {new Date().getFullYear()}{' '}
         <a

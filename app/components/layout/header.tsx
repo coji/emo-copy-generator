@@ -30,7 +30,7 @@ export const Header = ({
     <header
       ref={ref}
       className={cn(
-        'gap-3 bg-background p-4 sm:gap-4',
+        'bg-background gap-3 p-4 sm:gap-4',
         sticky && 'sticky top-0 z-20',
         offset > 10 && sticky ? 'shadow-sm' : 'shadow-none',
         className,
