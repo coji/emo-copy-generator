@@ -64,7 +64,6 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@react-router/dev": "^7.4.0",
-    "@tailwindcss/vite": "4.0.3",
     "@types/express": "5.0.0",
     "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
