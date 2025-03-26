@@ -55,7 +55,7 @@ export default function Home() {
     .map((s) => (s?.endsWith('。') ? s : `${s}。`)) // 最後が。で終わらない場合は。を追加
 
   return (
-    <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] md:container">
+    <div className="mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto] md:container">
       <Header>
         <HStack>
           <h1 className="flex-1 text-2xl font-bold">Emo Copy Generator</h1>
@@ -118,7 +118,7 @@ export default function Home() {
               {object && (
                 <Stack
                   gap="lg"
-                  className="rounded-xl border p-8 text-sm leading-relaxed [&>p]:animate-fadeIn"
+                  className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
                 >
                   <ReactMarkdown>{object.novel}</ReactMarkdown>
                 </Stack>
