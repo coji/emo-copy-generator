@@ -11,8 +11,8 @@
     "format": "prettier --check ."
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.1.10",
-    "@ai-sdk/react": "1.1.10",
+    "@ai-sdk/google": "^1.2.3",
+    "@ai-sdk/react": "1.2.2",
     "@conform-to/react": "1.2.2",
     "@conform-to/zod": "1.2.2",
     "@libsql/client": "0.14.0",
@@ -41,7 +41,7 @@
     "@react-router/serve": "^7.1.5",
     "@tabler/icons-react": "3.29.0",
     "@vercel/react-router": "1.0.2",
-    "ai": "^4.1.24",
+    "ai": "^4.2.5",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "cmdk": "1.0.4",
@@ -87,6 +87,10 @@
   "pnpm": {
     "patchedDependencies": {
       "@libsql/kysely-libsql": "patches/@libsql__kysely-libsql.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "esbuild"
+    ]
   }
 }
