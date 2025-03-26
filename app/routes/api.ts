@@ -44,7 +44,8 @@ ${submission.productCategory}が登場する、
 
 短編小説は本文のみで Markdown 形式で段落ごとに分けて記述してください。
 `
-  const modelName: Parameters<typeof google>[0] = 'gemini-2.5-pro-exp-03-25'
+  const modelName: Parameters<typeof google>[0] =
+    'gemini-2.0-flash-lite-preview-02-05'
   const temperature: number = 0.5
 
   const result = await streamObject({
