@@ -1,26 +1,16 @@
 import { experimental_useObject as useObject } from '@ai-sdk/react'
 import { parseWithZod } from '@conform-to/zod'
-import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { z } from 'zod'
 import { Footer } from '~/components/layout/footer'
-import { Header } from '~/components/layout/header'
 import { Main } from '~/components/layout/main'
-import { ThemeSwitch } from '~/components/theme-switch'
-import { Button } from '~/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '~/components/ui/dropdown-menu'
-import { HStack, Stack } from '~/components/ui/stack'
+import { Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
-import examples from '~/data/example.json'
 import { cn } from '~/lib/utils'
 import { inputSchema, outputSchema } from '../api'
 import type { Route } from './+types/route'
+import { AppHeader } from './components/app-header'
 import { GenerationForm } from './components/generation-form'
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -56,41 +46,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto] md:container">
-      <Header>
-        <HStack>
-          <h1 className="flex-1 text-2xl font-bold">Emo Copy Generator</h1>
-          <div className="ml-auto flex items-center gap-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="secondary" size="sm">
-                  サンプル入力
-                  <ChevronDownIcon />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {examples.map((ex) => {
-                  return (
-                    <DropdownMenuItem
-                      key={`${ex.productName}_${ex.productCategory}`}
-                      onClick={() => {
-                        setDefaultValue({ ...ex })
-                      }}
-                      className="text-xs"
-                    >
-                      {ex.productName} - {ex.productCategory}
-                    </DropdownMenuItem>
-                  )
-                })}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <ThemeSwitch />
-          </div>
-        </HStack>
-        <p className="text-muted-foreground">
-          Generate emotional copy for your next project.
-        </p>
-      </Header>
+      <AppHeader onSelectExample={setDefaultValue} />
 
       <Main fixed>
         <div
