@@ -37,7 +37,7 @@ export default function Home() {
 
   // コピー案をまとめる
   const copyCandidates = [
-    ...(object?.shortPoemsInspiredByTheStory?.split('。') ?? []),
+    ...(object?.shortPoemsInspiredByTheStory?.split(/。/) ?? []),
     object?.title,
     object?.theProtagonistsLastWords,
   ]
@@ -52,7 +52,7 @@ export default function Home() {
         <div
           className={cn(
             'grid grid-cols-1 gap-0',
-            isGenerated && 'gap-4 md:grid-cols-[auto_2fr_2fr] md:gap-8',
+            isGenerated && 'gap-4 md:grid-cols-3 md:gap-8',
           )}
         >
           <Stack>
@@ -89,9 +89,7 @@ export default function Home() {
                 <TableBody>
                   {copyCandidates.map((copy, index) => (
                     <TableRow key={copy}>
-                      <TableCell className="whitespace-nowrap">
-                        {index + 1}.
-                      </TableCell>
+                      <TableCell>{index + 1}.</TableCell>
                       <TableCell className="animate-fadeIn text-2xl">
                         {copy}
                       </TableCell>

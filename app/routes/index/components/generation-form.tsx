@@ -59,13 +59,12 @@ export const GenerationForm = ({
   return (
     <Card className="mx-auto w-full max-w-md">
       <CardContent className="pt-8">
-        <Form method="POST" {...getFormProps(form)} key={form.key}>
+        <Form method="POST" {...getFormProps(form)}>
           <Stack gap="lg">
             <Stack gap="sm">
               <Label htmlFor={fields.productName.id}>商品名</Label>
               <Input
                 {...getInputProps(fields.productName, { type: 'text' })}
-                key={fields.productName.key}
                 placeholder="例: 神生ビール"
               />
               <div
@@ -80,7 +79,6 @@ export const GenerationForm = ({
               <Label htmlFor={fields.productCategory.id}>商品カテゴリ</Label>
               <Input
                 {...getInputProps(fields.productCategory, { type: 'text' })}
-                key={fields.productCategory.key}
                 placeholder="例: 缶ビール"
               />
               <div
@@ -101,7 +99,6 @@ export const GenerationForm = ({
                     <HStack>
                       <Input
                         {...getInputProps(field, { type: 'text' })}
-                        key={field.key}
                         placeholder={brandImagePlaceholders[index]}
                       />
                       <Button
@@ -157,7 +154,6 @@ export const GenerationForm = ({
               </Label>
               <Input
                 {...getInputProps(fields.targetUserImage, { type: 'text' })}
-                key={fields.targetUserImage.key}
                 placeholder={'例: 20代都心で働く女性'}
               />
               <div
