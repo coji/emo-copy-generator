@@ -85,16 +85,10 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "pnpm": {
-    "patchedDependencies": {
-      "@libsql/kysely-libsql": "patches/@libsql__kysely-libsql.patch"
-    },
     "onlyBuiltDependencies": [
       "@biomejs/biome",
       "better-sqlite3",
       "esbuild",
-      "workerd"
-    ],
-    "ignoredBuiltDependencies": [
       "workerd"
     ]
   }
