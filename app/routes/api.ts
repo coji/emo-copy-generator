@@ -43,8 +43,15 @@ ${submission.productCategory}が登場する、
 3. ストーリーにインスパイアされた、句点で区切られた3行短詩
 
 短編小説は本文のみで Markdown 形式で段落ごとに分けて記述してください。
+ストーリーの長さは500文字程度で、以下の制約を守ってください。
+- 物語の舞台は日本であること
+- 主人公は日本人であること
+- ストーリーの中に日本語の句点「。」が含まれていること
+- ストーリーの中に日本語のカギカッコ「」が含まれていること
+- 日本語で書くこと
 `
-  const modelName: Parameters<typeof google>[0] = 'gemini-2.0-flash-lite'
+  const modelName: Parameters<typeof google>[0] =
+    'gemini-2.5-flash-preview-05-20'
   const temperature: number = 0.5
 
   const result = await streamObject({
