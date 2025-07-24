@@ -50,8 +50,7 @@ ${submission.productCategory}が登場する、
 - ストーリーの中に日本語のカギカッコ「」が含まれていること
 - 日本語で書くこと
 `
-  const modelName: Parameters<typeof google>[0] =
-    'gemini-2.5-flash-preview-05-20'
+  const modelName: Parameters<typeof google>[0] = 'gemini-2.5-flash-lite'
   const temperature: number = 0.5
 
   const result = await streamObject({

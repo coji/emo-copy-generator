@@ -30,7 +30,7 @@ export default function Home() {
   >({
     brandImages: [''],
   })
-  const { submit, stop, error, isLoading, object } = useObject({
+  const { submit, stop, isLoading, object } = useObject({
     api: '/api',
     schema: outputSchema,
   })
@@ -76,7 +76,9 @@ export default function Home() {
                   gap="lg"
                   className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
                 >
-                  <ReactMarkdown>{object.novel}</ReactMarkdown>
+                  <div>
+                    <ReactMarkdown>{object.novel}</ReactMarkdown>
+                  </div>
                 </Stack>
               )}
             </Stack>

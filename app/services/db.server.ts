@@ -8,7 +8,7 @@ export const db = new Kysely<DB>({
     client: createClient({
       url: process.env.DATABASE_URL!,
       authToken: process.env.TURSO_AUTH_TOKEN,
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: latest turso client is not compatible with types
     }) as any,
   }),
   plugins: [new CamelCasePlugin()],

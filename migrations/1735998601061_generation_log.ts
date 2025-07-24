@@ -1,6 +1,6 @@
 import { sql, type Kysely } from 'kysely'
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: kysely migrations do not have types for db
 export async function up(db: Kysely<any>): Promise<void> {
   // up migration code goes here...
   // note: up migrations are mandatory. you must implement this function.
@@ -27,7 +27,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute()
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: kysely migrations do not have types for db
 export async function down(db: Kysely<any>): Promise<void> {
   await db.schema.dropTable('generation_logs').ifExists().execute()
 }
