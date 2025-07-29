@@ -54,9 +54,7 @@ ${submission.productCategory}が登場する、
   const temperature: number = 0.5
 
   const result = await streamObject({
-    model: google(modelName, {
-      structuredOutputs: false,
-    }),
+    model: google(modelName),
     prompt,
     schema: outputSchema,
     temperature,
@@ -80,9 +78,9 @@ ${submission.productCategory}が登場する、
             event.object?.theProtagonistsLastWords,
             ...(event.object?.shortPoemsInspiredByTheStory?.split('。') ?? []),
           ]),
-          usagePromptTokens: event.usage.promptTokens,
-          usageCompletionTokens: event.usage.completionTokens,
-          usageTotalTokens: event.usage.totalTokens,
+          usagePromptTokens: event.usage.inputTokens ?? 0,
+          usageCompletionTokens: event.usage.outputTokens ?? 0,
+          usageTotalTokens: event.usage.totalTokens ?? 0,
           createdAt: sql`CURRENT_TIMESTAMP`,
         })
         .execute()

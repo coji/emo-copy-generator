@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import type { z } from 'zod'
 import { Footer } from '~/components/layout/footer'
 import { Main } from '~/components/layout/main'
+import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
 import { Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
 import { cn } from '~/lib/utils'
@@ -30,7 +31,7 @@ export default function Home() {
   >({
     brandImages: [''],
   })
-  const { submit, stop, isLoading, object } = useObject({
+  const { submit, stop, isLoading, object, error } = useObject({
     api: '/api',
     schema: outputSchema,
   })
@@ -100,6 +101,15 @@ export default function Home() {
                 </TableBody>
               </Table>
             </Stack>
+          )}
+
+          {error && (
+            <Alert variant="destructive" className="col-span-1 md:col-span-3">
+              <AlertTitle>エラーが発生しました</AlertTitle>
+              <AlertDescription>
+                {error.message || '不明なエラーが発生しました。'}
+              </AlertDescription>
+            </Alert>
           )}
         </div>
       </Main>
