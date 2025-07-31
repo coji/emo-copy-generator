@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { LoaderCircleIcon, PlusIcon, XIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { Form } from 'react-router'

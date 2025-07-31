@@ -7,22 +7,22 @@ import { db } from '~/services/db.server'
 import type { Route } from './+types/api'
 
 export const inputSchema = z.object({
-  productName: z.string({ required_error: '必須' }),
-  productCategory: z.string({ required_error: '必須' }),
+  productName: z.string({ error: '必須' }),
+  productCategory: z.string({ error: '必須' }),
   brandImages: z
-    .array(z.string({ required_error: '必須' }))
+    .array(z.string({ error: '必須' }))
     .min(1, '必須')
     .max(3, '3つまで'),
-  targetUserImage: z.string({ required_error: '必須' }),
+  targetUserImage: z.string({ error: '必須' }),
 })
 
 export const outputSchema = z.object({
   novel: z.string(),
   title: z.string(),
   theProtagonistsLastWords: z.string(),
-  shortPoemsInspiredByTheStory: z.string({
-    description: '日本語の句点「。」で区切られた3行短詩',
-  }),
+  shortPoemsInspiredByTheStory: z
+    .string()
+    .meta({ description: '日本語の句点「。」で区切られた3行短詩' }),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {

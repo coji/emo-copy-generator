@@ -1,5 +1,5 @@
 import { experimental_useObject as useObject } from '@ai-sdk/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { z } from 'zod'
