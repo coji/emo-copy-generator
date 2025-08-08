@@ -43,14 +43,11 @@ export default function LandingPageDetail({
               {new Date(landingPage.createdAt).toLocaleDateString('ja-JP')}
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
-              <a href={`/lp/share/${landingPage.shareUrl}`} target="_blank">
-                公開ページを見る
-              </a>
-            </Button>
-            <Button>編集</Button>
-          </div>
+          <Button variant="outline" asChild>
+            <a href={`/lp/share/${landingPage.shareUrl}`} target="_blank">
+              公開ページを見る
+            </a>
+          </Button>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">

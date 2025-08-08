@@ -3,6 +3,7 @@ import { type RouteConfig, index, route } from '@react-router/dev/routes'
 export default [
   index('routes/index/route.tsx'),
   route('/api', 'routes/api.ts'),
+  route('/api/generate-metadata', 'routes/api.generate-metadata.ts'),
   route('/lp/generate/:id', 'routes/lp.generate.$id/route.tsx'),
   route('/lp/dashboard', 'routes/lp.dashboard/route.tsx'),
   route('/lp/share/:id', 'routes/lp.share.$id/route.tsx'),

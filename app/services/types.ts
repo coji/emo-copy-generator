@@ -35,6 +35,7 @@ export interface LandingPage {
   htmlContent: string | null;
   id: string | null;
   isPublic: Generated<number | null>;
+  metadata: Generated<string | null>;
   ogImageUrl: string | null;
   selectedCopies: string;
   shareUrl: string | null;

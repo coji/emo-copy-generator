@@ -10,11 +10,23 @@ interface SimplifiedGenerationLog {
   story: string | null
 }
 
+interface LPMetadata {
+  mainCopy?: string
+  subCopy?: string
+  ctaText?: string
+  ctaUrl?: string
+  subDescription?: string
+  ogDescription?: string
+  formattedStory?: string
+  brandMessage?: string
+}
+
 interface LandingPageViewProps {
   templateId: string
   generationLog: SimplifiedGenerationLog
   selectedCopies: string[]
   config: Record<string, unknown>
+  metadata?: LPMetadata
 }
 
 export function LandingPageView({
@@ -22,6 +34,7 @@ export function LandingPageView({
   generationLog,
   selectedCopies,
   config,
+  metadata = {},
 }: LandingPageViewProps) {
   // Parse config if it's a string
   const parsedConfig = typeof config === 'string' ? JSON.parse(config) : config
@@ -32,6 +45,10 @@ export function LandingPageView({
       ? JSON.parse(selectedCopies)
       : selectedCopies
 
+  // Parse metadata if it's a string
+  const parsedMetadata =
+    typeof metadata === 'string' ? JSON.parse(metadata) : metadata
+
   switch (templateId) {
     case 'newspaper':
       return (
@@ -39,6 +56,7 @@ export function LandingPageView({
           generationLog={generationLog}
           selectedCopies={parsedCopies}
           config={parsedConfig}
+          metadata={parsedMetadata}
         />
       )
     case 'minimal':
@@ -47,6 +65,7 @@ export function LandingPageView({
           generationLog={generationLog}
           selectedCopies={parsedCopies}
           config={parsedConfig}
+          metadata={parsedMetadata}
         />
       )
     default:

@@ -8,6 +8,17 @@ interface SimplifiedGenerationLog {
   story: string | null
 }
 
+interface LPMetadata {
+  mainCopy?: string
+  subCopy?: string
+  ctaText?: string
+  ctaUrl?: string
+  subDescription?: string
+  ogDescription?: string
+  formattedStory?: string
+  brandMessage?: string
+}
+
 interface MinimalTemplateProps {
   generationLog: SimplifiedGenerationLog
   selectedCopies: string[]
@@ -16,15 +27,20 @@ interface MinimalTemplateProps {
     fontFamily?: string
     layout?: string
   }
+  metadata?: LPMetadata
 }
 
 export function MinimalTemplate({
   generationLog,
   selectedCopies,
   config = {},
+  metadata = {},
 }: MinimalTemplateProps) {
-  const [activeCopy, setActiveCopy] = useState(selectedCopies[0] || '')
+  const [activeCopy, setActiveCopy] = useState(
+    metadata.mainCopy || selectedCopies[0] || '',
+  )
   const fontFamily = config.fontFamily || 'Noto Sans JP'
+  const displayStory = metadata.formattedStory || generationLog.story
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#667eea] to-[#764ba2] p-5">
@@ -37,10 +53,10 @@ export function MinimalTemplate({
         </h1>
 
         <div
-          className="my-10 leading-[1.8] text-gray-800"
+          className="my-10 leading-[1.8] whitespace-pre-wrap text-gray-800"
           style={{ fontFamily: `'${fontFamily}', sans-serif` }}
         >
-          {generationLog.story}
+          {displayStory}
         </div>
 
         <div className="mt-10 flex flex-wrap gap-2.5">

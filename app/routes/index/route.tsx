@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
+import { Skeleton } from '~/components/ui/skeleton'
 import { Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
 import examples from '~/data/example.json'
@@ -113,15 +114,29 @@ export default function Home() {
           {isGenerated && (
             <Stack>
               <h2>ユーザーストーリー</h2>
-              {object && (
-                <Stack
-                  gap="lg"
-                  className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
-                >
-                  <div>
-                    <ReactMarkdown>{object.novel}</ReactMarkdown>
-                  </div>
-                </Stack>
+              {isLoading && !object ? (
+                <div className="rounded-xl border p-8">
+                  <Stack gap="md">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-2/3" />
+                  </Stack>
+                </div>
+              ) : (
+                object && (
+                  <Stack
+                    gap="lg"
+                    className="[&>p]:animate-fadeIn rounded-xl border p-8 text-sm leading-relaxed"
+                  >
+                    <div>
+                      <ReactMarkdown>{object.novel}</ReactMarkdown>
+                    </div>
+                  </Stack>
+                )
               )}
             </Stack>
           )}
@@ -136,18 +151,33 @@ export default function Home() {
                   </Button>
                 )}
               </div>
-              <Table>
-                <TableBody>
-                  {copyCandidates.map((copy, index) => (
-                    <TableRow key={copy}>
-                      <TableCell>{index + 1}.</TableCell>
-                      <TableCell className="animate-fadeIn text-2xl">
-                        {copy}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              {isLoading && !object ? (
+                <Table>
+                  <TableBody>
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <TableRow key={`skeleton-${i}`}>
+                        <TableCell>{i}.</TableCell>
+                        <TableCell>
+                          <Skeleton className="h-8 w-full max-w-2xl" />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              ) : (
+                <Table>
+                  <TableBody>
+                    {copyCandidates.map((copy, index) => (
+                      <TableRow key={copy}>
+                        <TableCell>{index + 1}.</TableCell>
+                        <TableCell className="animate-fadeIn text-2xl">
+                          {copy}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
             </Stack>
           )}
 

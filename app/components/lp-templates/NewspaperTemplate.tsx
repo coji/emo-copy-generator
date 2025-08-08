@@ -8,6 +8,17 @@ interface SimplifiedGenerationLog {
   story: string | null
 }
 
+interface LPMetadata {
+  mainCopy?: string
+  subCopy?: string
+  ctaText?: string
+  ctaUrl?: string
+  subDescription?: string
+  ogDescription?: string
+  formattedStory?: string
+  brandMessage?: string
+}
+
 interface NewspaperTemplateProps {
   generationLog: SimplifiedGenerationLog
   selectedCopies: string[]
@@ -16,18 +27,34 @@ interface NewspaperTemplateProps {
     fontFamily?: string
     layout?: string
   }
+  metadata?: LPMetadata
 }
 
 export function NewspaperTemplate({
   generationLog,
   selectedCopies,
   config = {},
+  metadata = {},
 }: NewspaperTemplateProps) {
-  const [activeCopy, setActiveCopy] = useState(selectedCopies[0] || '')
+  const [activeCopy, setActiveCopy] = useState(
+    metadata.mainCopy || selectedCopies[0] || '',
+  )
 
   const brandImages = JSON.parse(generationLog.brandImages || '[]') as string[]
   const primaryColor = config.primaryColor || '#0b0b0b'
   const fontFamily = config.fontFamily || 'Shippori Mincho'
+
+  // メタデータから値を取得（フォールバック付き）
+  const subCopy =
+    metadata.subCopy ||
+    metadata.brandMessage ||
+    brandImages[0] ||
+    'ブランドメッセージ'
+  const ctaText = metadata.ctaText || '詳しく見る'
+  const subDescription =
+    metadata.subDescription ||
+    `${generationLog.targetUserImage}のための${generationLog.productCategory}`
+  const displayStory = metadata.formattedStory || generationLog.story
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#141415] via-[#0e0e0f] to-[#0a0a0b] p-[4vh]">
@@ -63,7 +90,7 @@ export function NewspaperTemplate({
             className="border-l-[3px] border-[#2e3a8c] pl-2.5 text-xs tracking-[0.25em]"
             style={{ fontFamily: `'${fontFamily}', serif` }}
           >
-            {brandImages[0] || 'ブランドメッセージ'}
+            {subCopy}
           </div>
         </header>
 
@@ -84,8 +111,7 @@ export function NewspaperTemplate({
               className="mt-3.5 text-sm opacity-75"
               style={{ color: primaryColor }}
             >
-              {generationLog.targetUserImage}のための
-              {generationLog.productCategory}
+              {subDescription}
             </p>
             <button
               type="button"
@@ -96,7 +122,7 @@ export function NewspaperTemplate({
                 background: 'linear-gradient(#fff0, #00000008)',
               }}
             >
-              詳しく見る
+              {ctaText}
             </button>
           </section>
 
@@ -115,7 +141,14 @@ export function NewspaperTemplate({
                   'repeating-linear-gradient(transparent 0 36px, rgba(0, 0, 0, 0.035) 36px 37px)',
               }}
             >
-              {generationLog.story}
+              {displayStory?.split('\n').map((line, index) => (
+                <span key={`line-${line.substring(0, 10)}-${index}`}>
+                  {line}
+                  {index < (displayStory?.split('\n').length || 0) - 1 && (
+                    <br />
+                  )}
+                </span>
+              ))}
             </article>
           </section>
         </main>

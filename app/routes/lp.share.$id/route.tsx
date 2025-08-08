@@ -18,6 +18,7 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
       'landingPages.templateId',
       'landingPages.selectedCopies',
       'landingPages.config',
+      'landingPages.metadata',
       'landingPages.viewCount',
       'generationLogs.productName',
       'generationLogs.productCategory',
@@ -78,6 +79,9 @@ export default function SharedLandingPage({
       }}
       selectedCopies={JSON.parse(landingPage.selectedCopies)}
       config={JSON.parse(landingPage.config)}
+      metadata={
+        landingPage.metadata ? JSON.parse(landingPage.metadata) : undefined
+      }
     />
   )
 }
