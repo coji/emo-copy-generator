@@ -1,12 +1,15 @@
 import { google } from '@ai-sdk/google'
+import { openai } from '@ai-sdk/openai'
 import { createId } from '@paralleldrive/cuid2'
 import { streamObject } from 'ai'
 import { sql } from 'kysely'
+import { match } from 'ts-pattern'
 import { z } from 'zod'
 import { db } from '~/services/db.server'
 import type { Route } from './+types/api'
 
 export const inputSchema = z.object({
+  provider: z.enum(['google', 'openai']),
   productName: z.string({ error: '必須' }),
   productCategory: z.string({ error: '必須' }),
   brandImages: z
@@ -28,6 +31,12 @@ export const outputSchema = z.object({
 export const action = async ({ request }: Route.ActionArgs) => {
   const json = await request.json()
   const submission = inputSchema.parse(json)
+
+  const model = match(submission.provider)
+    .with('google', () => google('gemini-2.5-flash-lite'))
+    .with('openai', () => openai('gpt-5-nano'))
+    .exhaustive()
+
   const prompt = `あなたは気鋭の作家です。
 
 ${submission.brandImages.join(', ')}というイメージで、
@@ -50,21 +59,21 @@ ${submission.productCategory}が登場する、
 - ストーリーの中に日本語のカギカッコ「」が含まれていること
 - 日本語で書くこと
 `
-  const modelName: Parameters<typeof google>[0] = 'gemini-2.5-flash-lite'
+  const modelName = model.modelId
   const temperature: number = 0.5
 
   const result = await streamObject({
-    model: google(modelName),
+    model,
     prompt,
     schema: outputSchema,
-    temperature,
+    temperature: 0.5,
     abortSignal: request.signal,
     onFinish: async (event) => {
       await db
         .insertInto('generationLogs')
         .values({
           id: createId(),
-          provider: 'google',
+          provider: submission.provider,
           modelName: modelName,
           temperature,
           prompt,

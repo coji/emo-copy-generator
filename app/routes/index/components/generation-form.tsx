@@ -62,6 +62,8 @@ export const GenerationForm = ({
         <Form method="POST" {...getFormProps(form)}>
           <Stack gap="lg">
             <Stack gap="sm">
+              <input type="hidden" name="provider" value="openai" />
+
               <Label htmlFor={fields.productName.id}>商品名</Label>
               <Input
                 {...getInputProps(fields.productName, { type: 'text' })}
