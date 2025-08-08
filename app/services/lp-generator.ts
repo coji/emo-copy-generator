@@ -26,7 +26,7 @@ const ALLOWED_FONTS = [
   'system-ui',
   'sans-serif',
   'serif',
-  'monospace'
+  'monospace',
 ]
 
 function validateColor(color: string): string {
@@ -54,7 +54,7 @@ export function generateLandingPageHtml(options: GenerateOptions): string {
     defaultConfig = {
       primaryColor: '#000000',
       fontFamily: 'Noto Sans JP',
-      layout: 'default'
+      layout: 'default',
     }
   }
 
@@ -128,12 +128,16 @@ export function generateLandingPageHtml(options: GenerateOptions): string {
   html = html.replace(/\{\{og_description\}\}/g, escapeHtml(ogDescription))
 
   // スタイル設定 (validated and escaped)
-  const primaryColor = validateColor(String(finalConfig.primaryColor || '#000000'))
-  const fontFamily = validateFontFamily(String(finalConfig.fontFamily || 'Noto Sans JP'))
-  
+  const primaryColor = validateColor(
+    String(finalConfig.primaryColor || '#000000'),
+  )
+  const fontFamily = validateFontFamily(
+    String(finalConfig.fontFamily || 'Noto Sans JP'),
+  )
+
   html = html.replace(/\{\{primary_color\}\}/g, escapeHtml(primaryColor))
   html = html.replace(/\{\{font_family\}\}/g, escapeHtml(fontFamily))
-  
+
   // Add CTA URL (with safe default)
   const ctaUrl = '#' // Default to # for now, can be made configurable later
   html = html.replace(/\{\{cta_url\}\}/g, escapeHtml(ctaUrl))

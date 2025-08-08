@@ -12,7 +12,6 @@ import {
 } from '~/components/ui/card'
 import { Stack } from '~/components/ui/stack'
 import { db } from '~/services/db.server'
-import { generateLandingPageHtml } from '~/services/lp-generator'
 import type { Route } from './+types/route'
 
 const generateSchema = z.object({
@@ -97,15 +96,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
     throw new Response('Template not found', { status: 404 })
   }
 
-  // HTMLコンテンツを生成
-  const htmlContent = generateLandingPageHtml({
-    template,
-    generationLog,
-    selectedCopies,
-    config: config || JSON.parse(template.defaultConfig),
-  })
-
-  // LPを保存
+  // LPデータを保存（HTMLは生成しない）
   await db
     .insertInto('landingPages')
     .values({
@@ -115,7 +106,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
       title: `${generationLog.productName} - エモコピーLP`,
       selectedCopies: JSON.stringify(selectedCopies),
       config: JSON.stringify(config || JSON.parse(template.defaultConfig)),
-      htmlContent,
+      htmlContent: null, // HTMLは保存しない
       isPublic: 1,
       shareUrl,
       viewCount: 0,
