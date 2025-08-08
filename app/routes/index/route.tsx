@@ -4,6 +4,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { Link } from 'react-router'
 import type { z } from 'zod'
 import { Footer } from '~/components/layout/footer'
 import { Main } from '~/components/layout/main'
@@ -131,7 +132,7 @@ export default function Home() {
                 <h2>コピー案</h2>
                 {object && generationLogId && (
                   <Button asChild>
-                    <a href={`/lp/generate/${generationLogId}`}>LPを作成</a>
+                    <Link to={`/lp/generate/${generationLogId}`}>LPを作成</Link>
                   </Button>
                 )}
               </div>

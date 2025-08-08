@@ -1,3 +1,4 @@
+import DOMPurify from 'isomorphic-dompurify'
 import { db } from '~/services/db.server'
 import type { Route } from './+types/route'
 
@@ -38,7 +39,40 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     .where('id', '=', landingPage.id)
     .execute()
 
-  return { landingPage }
+  // Sanitize HTML content server-side
+  const sanitizedHtmlContent = landingPage.htmlContent
+    ? DOMPurify.sanitize(landingPage.htmlContent, {
+        ALLOWED_TAGS: [
+          'html', 'head', 'title', 'meta', 'link', 'style', 'body',
+          'div', 'section', 'article', 'header', 'footer', 'main', 'aside',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'a', 'button',
+          'ul', 'ol', 'li', 'table', 'thead', 'tbody', 'tr', 'th', 'td',
+          'img', 'svg', 'path', 'g', 'circle', 'rect', 'line', 'polygon',
+          'form', 'input', 'textarea', 'select', 'option', 'label',
+          'strong', 'em', 'b', 'i', 'u', 'br', 'hr', 'small', 'sub', 'sup'
+        ],
+        ALLOWED_ATTR: [
+          'class', 'id', 'style', 'href', 'src', 'alt', 'title', 'width', 'height',
+          'target', 'rel', 'type', 'name', 'value', 'placeholder', 'required',
+          'disabled', 'readonly', 'checked', 'selected', 'for', 'lang', 'dir',
+          'role', 'aria-label', 'aria-labelledby', 'aria-describedby', 'aria-pressed',
+          'data-copy', 'charset', 'viewport', 'content', 'property', 'crossorigin',
+          'd', 'viewBox', 'fill', 'stroke', 'stroke-width', 'xmlns'
+        ],
+        ALLOW_DATA_ATTR: true,
+        ALLOW_ARIA_ATTR: true,
+        KEEP_CONTENT: true,
+        ADD_TAGS: ['meta', 'link'],
+        ADD_ATTR: ['http-equiv', 'content-type']
+      })
+    : null
+
+  return { 
+    landingPage: {
+      ...landingPage,
+      htmlContent: sanitizedHtmlContent
+    }
+  }
 }
 
 export default function SharedLandingPage({

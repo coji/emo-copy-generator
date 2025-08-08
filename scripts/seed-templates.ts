@@ -20,7 +20,7 @@ async function seedTemplates() {
           description: template.description || '',
           thumbnailUrl: template.thumbnail_url || null,
           baseHtml: template.base_html,
-          defaultConfig: JSON.stringify(template.default_config),
+          defaultConfig: JSON.stringify(template.default_config), // Keep as JSON string for SQLite
           category: template.category,
           isActive: 1,
         })

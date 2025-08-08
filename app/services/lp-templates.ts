@@ -214,7 +214,7 @@ export const newspaperTemplate: LPTemplate = {
         <section class="hero" aria-labelledby="hero-copy">
           <h1 id="hero-copy" class="copy">{{main_copy}}</h1>
           <p class="sub">{{sub_description}}</p>
-          <a class="cta" href="#">{{cta_text}}</a>
+          <a class="cta" href="{{cta_url}}" target="_blank" rel="noopener noreferrer">{{cta_text}}</a>
         </section>
         <section class="story-wrap" aria-labelledby="story-title">
           <div id="story-title" class="story-label">ユーザーストーリー</div>
