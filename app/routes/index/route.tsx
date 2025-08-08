@@ -1,13 +1,23 @@
 import { experimental_useObject as useObject } from '@ai-sdk/react'
 import { parseWithZod } from '@conform-to/zod/v4'
+import { createId } from '@paralleldrive/cuid2'
+import { ChevronDownIcon } from 'lucide-react'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import type { z } from 'zod'
 import { Footer } from '~/components/layout/footer'
 import { Main } from '~/components/layout/main'
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert'
+import { Button } from '~/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu'
 import { Stack } from '~/components/ui/stack'
 import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table'
+import examples from '~/data/example.json'
 import { cn } from '~/lib/utils'
 import { inputSchema, outputSchema } from '../api'
 import type { Route } from './+types/route'
@@ -26,6 +36,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
 export default function Home() {
   const [isGenerated, setIsGenerated] = useState(false)
+  const [generationLogId, setGenerationLogId] = useState<string | null>(null)
   const [defaultValue, setDefaultValue] = useState<
     Partial<z.infer<typeof inputSchema>>
   >({
@@ -47,7 +58,7 @@ export default function Home() {
 
   return (
     <div className="mx-auto grid min-h-dvh grid-rows-[auto_1fr_auto] md:container">
-      <AppHeader onSelectExample={setDefaultValue} />
+      <AppHeader />
 
       <Main fixed>
         <div
@@ -57,16 +68,45 @@ export default function Home() {
           )}
         >
           <Stack>
-            <h2 className="mx-auto w-full max-w-md">初期設定</h2>
-            <GenerationForm
-              defaultValue={defaultValue}
-              isLoading={isLoading}
-              onStop={stop}
-              onSubmit={(values) => {
-                submit(values)
-                setIsGenerated(true)
-              }}
-            />
+            <div className="mx-auto w-full max-w-md">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="mb-0">初期設定</h2>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="secondary" size="sm">
+                      サンプル入力
+                      <ChevronDownIcon />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {examples.map((ex) => {
+                      return (
+                        <DropdownMenuItem
+                          key={`${ex.productName}_${ex.productCategory}`}
+                          onClick={() => {
+                            setDefaultValue({ ...ex })
+                          }}
+                          className="text-xs"
+                        >
+                          {ex.productName} - {ex.productCategory}
+                        </DropdownMenuItem>
+                      )
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <GenerationForm
+                defaultValue={defaultValue}
+                isLoading={isLoading}
+                onStop={stop}
+                onSubmit={(values) => {
+                  const newGenerationLogId = createId()
+                  setGenerationLogId(newGenerationLogId)
+                  submit({ ...values, generationLogId: newGenerationLogId })
+                  setIsGenerated(true)
+                }}
+              />
+            </div>
           </Stack>
 
           {isGenerated && (
@@ -87,7 +127,16 @@ export default function Home() {
 
           {isGenerated && (
             <Stack>
-              <h2>コピー案</h2>
+              <div className="flex justify-between items-center">
+                <h2>コピー案</h2>
+                {object && generationLogId && (
+                  <Button asChild>
+                    <a href={`/lp/generate/${generationLogId}`}>
+                      LPを作成
+                    </a>
+                  </Button>
+                )}
+              </div>
               <Table>
                 <TableBody>
                   {copyCandidates.map((copy, index) => (

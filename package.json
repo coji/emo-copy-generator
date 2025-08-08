@@ -5,7 +5,8 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "kysely:codegen": "kysely-codegen --dialect libsql --singular --camel-case --out-file app/services/types.ts",
+    "kysely:codegen": "kysely-codegen --dialect libsql --singularize --camel-case --out-file app/services/types.ts --url file:./local.db",
+    "db:migrate": "tsx scripts/migrate.ts",
     "typecheck": "react-router typegen && tsc",
     "format": "prettier . --check --experimental-cli",
     "format:fix": "prettier . --write --experimental-cli",
