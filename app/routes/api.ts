@@ -43,7 +43,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
 
 ${submission.brandImages.join(', ')}というイメージで、
 ${submission.productCategory}が登場する、
-まるで人間交差点のような、エモーショナルな短編小説を執筆してください。
+登場人物の人情や人生を感じるような、エモーショナルな短編小説を執筆してください。
 
 主人公は${submission.targetUserImage}です。
 
