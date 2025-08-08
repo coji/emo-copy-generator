@@ -17,6 +17,7 @@ export const inputSchema = z.object({
     .min(1, '必須')
     .max(3, '3つまで'),
   targetUserImage: z.string({ error: '必須' }),
+  generationLogId: z.string().optional(),
 })
 
 export const outputSchema = z.object({
@@ -26,6 +27,7 @@ export const outputSchema = z.object({
   shortPoemsInspiredByTheStory: z
     .string()
     .meta({ description: '日本語の句点「。」で区切られた3行短詩' }),
+  generationLogId: z.string().default(''),
 })
 
 export const action = async ({ request }: Route.ActionArgs) => {
@@ -61,9 +63,19 @@ ${submission.productCategory}が登場する、
 `
   const modelName = model.modelId
   const temperature: number = 0.5
+  const generationLogId = submission.generationLogId || createId()
 
   const result = await streamObject({
     model,
+    providerOptions: {
+      openai: { reasoningEffort: 'low' },
+      google: {
+        thinkingConfig: {
+          thinkingBudget: 0,
+          includeThoughts: false,
+        },
+      },
+    },
     prompt,
     schema: outputSchema,
     temperature: 0.5,
@@ -72,7 +84,7 @@ ${submission.productCategory}が登場する、
       await db
         .insertInto('generationLogs')
         .values({
-          id: createId(),
+          id: generationLogId,
           provider: submission.provider,
           modelName: modelName,
           temperature,

@@ -27,6 +27,47 @@ export interface GenerationLog {
   usageTotalTokens: number;
 }
 
+export interface LandingPage {
+  config: string;
+  createdAt: Generated<string>;
+  deletedAt: string | null;
+  generationLogId: string;
+  htmlContent: string | null;
+  id: string | null;
+  isPublic: Generated<number | null>;
+  ogImageUrl: string | null;
+  selectedCopies: string;
+  shareUrl: string | null;
+  templateId: string;
+  title: string;
+  updatedAt: Generated<string>;
+  viewCount: Generated<number | null>;
+}
+
+export interface LpTemplate {
+  baseHtml: string;
+  category: string | null;
+  createdAt: Generated<string>;
+  defaultConfig: string;
+  description: string | null;
+  id: string | null;
+  isActive: Generated<number | null>;
+  name: string;
+  thumbnailUrl: string | null;
+}
+
+export interface LpView {
+  id: string | null;
+  ipAddress: string | null;
+  landingPageId: string;
+  referrer: string | null;
+  userAgent: string | null;
+  viewedAt: Generated<string>;
+}
+
 export interface DB {
   generationLogs: GenerationLog;
+  landingPages: LandingPage;
+  lpTemplates: LpTemplate;
+  lpViews: LpView;
 }
