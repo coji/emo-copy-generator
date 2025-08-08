@@ -1,9 +1,8 @@
+import { FileMigrationProvider, Migrator } from 'kysely'
 import { promises as fs } from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-// ローカル開発時はdb.localを使用
-import { db } from '../app/services/db.local'
-import { FileMigrationProvider, Migrator } from 'kysely'
+import { db } from '../app/services/db.server'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

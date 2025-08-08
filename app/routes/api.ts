@@ -5,7 +5,7 @@ import { streamObject } from 'ai'
 import { sql } from 'kysely'
 import { match } from 'ts-pattern'
 import { z } from 'zod'
-import { db } from '~/services/db.local'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/api'
 
 export const inputSchema = z.object({

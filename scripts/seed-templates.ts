@@ -1,9 +1,9 @@
-import { db } from '../app/services/db.local'
+import { db } from '../app/services/db.server'
 import { templates } from '../app/services/lp-templates'
 
 async function seedTemplates() {
   console.log('Seeding templates...')
-  
+
   for (const template of templates) {
     const existing = await db
       .selectFrom('lpTemplates')

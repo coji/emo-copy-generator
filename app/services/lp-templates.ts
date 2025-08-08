@@ -242,7 +242,7 @@ export const newspaperTemplate: LPTemplate = {
       })
     </script>
   </body>
-</html>`
+</html>`,
 }
 
 export const minimalTemplate: LPTemplate = {
@@ -320,10 +320,7 @@ export const minimalTemplate: LPTemplate = {
       <div class="copies">{{copy_buttons}}</div>
     </div>
   </body>
-</html>`
+</html>`,
 }
 
-export const templates: LPTemplate[] = [
-  newspaperTemplate,
-  minimalTemplate,
-]
+export const templates: LPTemplate[] = [newspaperTemplate, minimalTemplate]

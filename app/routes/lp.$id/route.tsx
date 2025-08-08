@@ -1,7 +1,7 @@
 import { Button } from '~/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card'
 import { Stack } from '~/components/ui/stack'
-import { db } from '~/services/db.local'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/route'
 
 export const loader = async ({ params }: Route.LoaderArgs) => {
@@ -27,17 +27,20 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   return { landingPage }
 }
 
-export default function LandingPageDetail({ loaderData }: Route.ComponentProps) {
+export default function LandingPageDetail({
+  loaderData,
+}: Route.ComponentProps) {
   const { landingPage } = loaderData
 
   return (
     <div className="container mx-auto py-8">
       <Stack gap="xl">
-        <div className="flex justify-between items-start">
+        <div className="flex items-start justify-between">
           <div>
             <h1 className="text-3xl font-bold">{landingPage.title}</h1>
             <p className="text-muted-foreground mt-2">
-              作成日: {new Date(landingPage.createdAt).toLocaleDateString('ja-JP')}
+              作成日:{' '}
+              {new Date(landingPage.createdAt).toLocaleDateString('ja-JP')}
             </p>
           </div>
           <div className="flex gap-2">
@@ -56,10 +59,10 @@ export default function LandingPageDetail({ loaderData }: Route.ComponentProps) 
               <CardTitle>プレビュー</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="border rounded-lg overflow-hidden">
+              <div className="overflow-hidden rounded-lg border">
                 <iframe
                   src={`/lp/share/${landingPage.shareUrl}`}
-                  className="w-full h-[600px]"
+                  className="h-[600px] w-full"
                   title="LP Preview"
                   sandbox="allow-scripts allow-same-origin"
                 />
@@ -74,17 +77,17 @@ export default function LandingPageDetail({ loaderData }: Route.ComponentProps) 
             <CardContent>
               <Stack>
                 <div>
-                  <p className="text-sm text-muted-foreground">ビュー数</p>
+                  <p className="text-muted-foreground text-sm">ビュー数</p>
                   <p className="text-2xl font-bold">{landingPage.viewCount}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">公開URL</p>
-                  <code className="text-xs bg-muted p-2 rounded block break-all">
+                  <p className="text-muted-foreground text-sm">公開URL</p>
+                  <code className="bg-muted block rounded p-2 text-xs break-all">
                     {`${typeof window !== 'undefined' ? window.location.origin : ''}/lp/share/${landingPage.shareUrl}`}
                   </code>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">ステータス</p>
+                  <p className="text-muted-foreground text-sm">ステータス</p>
                   <p>{landingPage.isPublic ? '公開中' : '非公開'}</p>
                 </div>
               </Stack>
@@ -99,7 +102,7 @@ export default function LandingPageDetail({ loaderData }: Route.ComponentProps) 
           <CardContent>
             <Stack>
               {JSON.parse(landingPage.selectedCopies).map((copy: string) => (
-                <div key={copy} className="p-3 bg-muted rounded">
+                <div key={copy} className="bg-muted rounded p-3">
                   {copy}
                 </div>
               ))}

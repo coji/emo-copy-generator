@@ -38,21 +38,25 @@ pnpm kysely:codegen   # Generate Kysely types from database schema
 ## Architecture
 
 ### Route Structure
+
 - `/` - Main page with generation form and results display (app/routes/index/route.tsx)
 - `/api` - AI generation endpoint handling streaming responses (app/routes/api.ts)
 
 ### Core Components
+
 - **Generation Form**: Uses Conform for form validation with Zod schemas
 - **AI Integration**: Streaming object generation with provider abstraction (Google/OpenAI)
 - **Database**: Generation logs stored in LibSQL with Kysely for type-safe queries
 
 ### Key Patterns
+
 1. **Form Handling**: Conform + Zod for type-safe form validation
 2. **AI Streaming**: useObject hook for real-time streaming responses
 3. **Error Handling**: Structured error display with fallback UI
 4. **Component Library**: Radix UI primitives wrapped with custom styling in app/components/ui/
 
 ### Data Flow
+
 1. User submits form with product details and brand images
 2. Form data validated with Zod schema
 3. API endpoint generates story using selected AI provider
@@ -62,6 +66,7 @@ pnpm kysely:codegen   # Generate Kysely types from database schema
 ## Environment Variables
 
 Required environment variables:
+
 - `DATABASE_URL` - LibSQL/Turso database URL
 - `TURSO_AUTH_TOKEN` - Authentication token for Turso
 - AI provider keys (as needed)
@@ -69,6 +74,7 @@ Required environment variables:
 ## Database Schema
 
 The app uses Kysely with LibSQL. Types are auto-generated from the database schema:
+
 - Run `pnpm kysely:codegen` to regenerate types after schema changes
 - Generated types are in `app/services/types.ts`
 - Migrations are in `migrations/` directory

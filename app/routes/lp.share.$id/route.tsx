@@ -1,4 +1,4 @@
-import { db } from '~/services/db.local'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/route'
 
 export const loader = async ({ params, request }: Route.LoaderArgs) => {
@@ -41,7 +41,9 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
   return { landingPage }
 }
 
-export default function SharedLandingPage({ loaderData }: Route.ComponentProps) {
+export default function SharedLandingPage({
+  loaderData,
+}: Route.ComponentProps) {
   const { landingPage } = loaderData
 
   // HTMLコンテンツを直接レンダリング
@@ -58,7 +60,7 @@ export default function SharedLandingPage({ loaderData }: Route.ComponentProps) 
       <h1 className="text-3xl font-bold">{landingPage.title}</h1>
       <div className="mt-8">
         {JSON.parse(landingPage.selectedCopies).map((copy: string) => (
-          <p key={copy} className="text-lg my-4">
+          <p key={copy} className="my-4 text-lg">
             {copy}
           </p>
         ))}

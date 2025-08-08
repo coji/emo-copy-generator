@@ -1,15 +1,32 @@
 import { Link } from 'react-router'
 import { Button } from '~/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card'
 import { Stack } from '~/components/ui/stack'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
-import { db } from '~/services/db.local'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '~/components/ui/table'
+import { db } from '~/services/db.server'
 import type { Route } from './+types/route'
 
 export const loader = async () => {
   const landingPages = await db
     .selectFrom('landingPages')
-    .leftJoin('generationLogs', 'landingPages.generationLogId', 'generationLogs.id')
+    .leftJoin(
+      'generationLogs',
+      'landingPages.generationLogId',
+      'generationLogs.id',
+    )
     .select([
       'landingPages.id',
       'landingPages.title',
@@ -55,7 +72,7 @@ export default function LPDashboard({ loaderData }: Route.ComponentProps) {
               <p className="text-3xl font-bold">{landingPages.length}</p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>総ビュー数</CardTitle>
@@ -64,14 +81,18 @@ export default function LPDashboard({ loaderData }: Route.ComponentProps) {
               <p className="text-3xl font-bold">{totalViews}</p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader>
               <CardTitle>公開中のLP</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold">
-                {landingPages.filter((lp: { isPublic: number | null }) => lp.isPublic === 1).length}
+                {
+                  landingPages.filter(
+                    (lp: { isPublic: number | null }) => lp.isPublic === 1,
+                  ).length
+                }
               </p>
             </CardContent>
           </Card>
@@ -80,9 +101,7 @@ export default function LPDashboard({ loaderData }: Route.ComponentProps) {
         <Card>
           <CardHeader>
             <CardTitle>LP一覧</CardTitle>
-            <CardDescription>
-              作成したランディングページの一覧
-            </CardDescription>
+            <CardDescription>作成したランディングページの一覧</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -97,43 +116,45 @@ export default function LPDashboard({ loaderData }: Route.ComponentProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {landingPages.map((lp: {
-                  id: string | null
-                  title: string
-                  shareUrl: string | null
-                  viewCount: number | null
-                  isPublic: number | null
-                  createdAt: string
-                  productName: string | null
-                }) => (
-                  <TableRow key={lp.id}>
-                    <TableCell>{lp.title}</TableCell>
-                    <TableCell>{lp.productName}</TableCell>
-                    <TableCell>{lp.viewCount}</TableCell>
-                    <TableCell>
-                      {lp.isPublic === 1 ? '公開中' : '非公開'}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(lp.createdAt).toLocaleDateString('ja-JP')}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" asChild>
-                          <Link to={`/lp/${lp.id}`}>詳細</Link>
-                        </Button>
-                        <Button size="sm" variant="outline" asChild>
-                          <a 
-                            href={`/lp/share/${lp.shareUrl}`} 
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            公開ページ
-                          </a>
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {landingPages.map(
+                  (lp: {
+                    id: string | null
+                    title: string
+                    shareUrl: string | null
+                    viewCount: number | null
+                    isPublic: number | null
+                    createdAt: string
+                    productName: string | null
+                  }) => (
+                    <TableRow key={lp.id}>
+                      <TableCell>{lp.title}</TableCell>
+                      <TableCell>{lp.productName}</TableCell>
+                      <TableCell>{lp.viewCount}</TableCell>
+                      <TableCell>
+                        {lp.isPublic === 1 ? '公開中' : '非公開'}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(lp.createdAt).toLocaleDateString('ja-JP')}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline" asChild>
+                            <Link to={`/lp/${lp.id}`}>詳細</Link>
+                          </Button>
+                          <Button size="sm" variant="outline" asChild>
+                            <a
+                              href={`/lp/share/${lp.shareUrl}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              公開ページ
+                            </a>
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ),
+                )}
               </TableBody>
             </Table>
           </CardContent>

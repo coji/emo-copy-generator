@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '~/components/ui/card'
 import { Stack } from '~/components/ui/stack'
-import { db } from '~/services/db.local'
+import { db } from '~/services/db.server'
 import { generateLandingPageHtml } from '~/services/lp-generator'
 import type { Route } from './+types/route'
 
@@ -125,7 +125,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
   return redirect(`/lp/${landingPageId}`)
 }
 
-export default function LPGenerate({ loaderData, params }: Route.ComponentProps) {
+export default function LPGenerate({
+  loaderData,
+  params,
+}: Route.ComponentProps) {
   const { templates, candidates } = loaderData
   const generationLogId = params.id
 
@@ -153,7 +156,10 @@ export default function LPGenerate({ loaderData, params }: Route.ComponentProps)
               <CardContent>
                 <Stack>
                   {templates.map((template, index) => (
-                    <label key={template.id} className="flex items-center gap-2 cursor-pointer">
+                    <label
+                      key={template.id}
+                      className="flex cursor-pointer items-center gap-2"
+                    >
                       <input
                         type="radio"
                         name="templateId"
@@ -168,7 +174,7 @@ export default function LPGenerate({ loaderData, params }: Route.ComponentProps)
               </CardContent>
             </Card>
 
-          {/* コピー選択 */}
+            {/* コピー選択 */}
             <Card>
               <CardHeader>
                 <CardTitle>コピー選択</CardTitle>

@@ -69,7 +69,7 @@ export default function Home() {
         >
           <Stack>
             <div className="mx-auto w-full max-w-md">
-              <div className="flex justify-between items-center mb-4">
+              <div className="mb-4 flex items-center justify-between">
                 <h2 className="mb-0">初期設定</h2>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -127,13 +127,11 @@ export default function Home() {
 
           {isGenerated && (
             <Stack>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <h2>コピー案</h2>
                 {object && generationLogId && (
                   <Button asChild>
-                    <a href={`/lp/generate/${generationLogId}`}>
-                      LPを作成
-                    </a>
+                    <a href={`/lp/generate/${generationLogId}`}>LPを作成</a>
                   </Button>
                 )}
               </div>
