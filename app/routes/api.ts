@@ -1,11 +1,9 @@
-import { google } from '@ai-sdk/google'
-import { openai } from '@ai-sdk/openai'
 import { createId } from '@paralleldrive/cuid2'
 import { streamObject } from 'ai'
 import { sql } from 'kysely'
-import { match } from 'ts-pattern'
 import { z } from 'zod'
 import { db } from '~/services/db.server'
+import { createModel } from '~/services/model.server'
 import type { Route } from './+types/api'
 
 export const inputSchema = z.object({
@@ -34,11 +32,10 @@ export const action = async ({ request }: Route.ActionArgs) => {
   const json = await request.json()
   const submission = inputSchema.parse(json)
 
-  const model = match(submission.provider)
-    .with('google', () => google('gemini-2.5-flash-lite'))
-    .with('openai', () => openai('gpt-5-nano'))
-    .exhaustive()
-
+  const model = createModel({
+    provider: submission.provider,
+    api: 'emo-copy-generator',
+  })
   const prompt = `あなたは気鋭の作家です。
 
 ${submission.brandImages.join(', ')}というイメージで、
