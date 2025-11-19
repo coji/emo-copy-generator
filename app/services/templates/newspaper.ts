@@ -4,218 +4,242 @@ export const newspaperHtml = `<!doctype html>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{product_name}}｜{{main_copy}}</title>
-    <meta name="description" content="{{main_copy}} {{product_name}}の新聞広告風ランディングページ。" />
+    <meta name="description" content="{{og_description}}" />
     <meta property="og:title" content="{{product_name}}｜{{main_copy}}" />
     <meta property="og:description" content="{{og_description}}" />
     <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --ink: {{primary_color}};
-        --paper: #f9f7f2;
-        --accent: #2e3a8c;
-        --gold: #b08d57;
+        --ink: #1a1a1a;
+        --paper: #fdfbf7;
+        --accent: #8b7355;
+        --muted: #a39382;
       }
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
+      * { 
+        box-sizing: border-box; 
         margin: 0;
-        background: radial-gradient(1200px 600px at 70% 20%, #141415 0, #0e0e0f 40%, #0a0a0b 100%);
+        padding: 0;
+      }
+      html, body { 
+        height: 100%; 
+        overflow-x: hidden;
+      }
+      body {
+        background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%);
         color: var(--ink);
-        font-family: 'Noto Sans JP', system-ui, sans-serif;
-        letter-spacing: 0.02em;
+        font-family: 'Noto Serif JP', serif;
+        line-height: 1.9;
+        letter-spacing: 0.05em;
       }
-      .sheet {
-        width: min(1040px, 92vw);
-        min-height: 92vh;
-        margin: 4vh auto;
+      
+      .page {
+        max-width: 900px;
+        margin: 5vh auto;
         background: var(--paper);
-        box-shadow: 0 35px 80px rgba(0, 0, 0, 0.35), 0 2px 0 rgba(0, 0, 0, 0.3) inset;
-        border-radius: 10px;
+        box-shadow: 
+          0 0 0 1px rgba(0,0,0,0.05),
+          0 20px 60px rgba(0,0,0,0.4),
+          0 40px 100px rgba(0,0,0,0.3);
         position: relative;
-        overflow: hidden;
       }
-      .grain:before {
+      
+      /* Paper texture */
+      .page::before {
         content: '';
         position: absolute;
-        inset: -20%;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .03 .06 .08 .12 .15"/></feComponentTransfer></filter><rect width="120" height="120" filter="url(%23n)"/></svg>');
-        opacity: 0.15;
-        mix-blend-mode: multiply;
-        animation: grain 7s steps(6) infinite;
+        inset: 0;
+        background-image: 
+          repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px);
+        pointer-events: none;
+        opacity: 0.3;
       }
-      @keyframes grain {
-        0% { transform: translate(0, 0); }
-        25% { transform: translate(-6%, 3%); }
-        50% { transform: translate(4%, -8%); }
-        75% { transform: translate(-2%, 5%); }
-        100% { transform: translate(0, 0); }
-      }
-      header {
-        padding: 28px 36px 0 36px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-      }
-      .brand {
-        font-family: '{{font_family}}', serif;
-        font-weight: 800;
-        font-size: 28px;
-        letter-spacing: 0.12em;
-      }
-      .seal {
-        color: var(--gold);
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: 0.35em;
-        margin-top: 6px;
-      }
-      .grid {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 32px;
-        padding: 10px 36px 36px 36px;
-      }
-      .hero {
+      
+      .content {
+        padding: 80px 60px;
         position: relative;
-        min-height: 62vh;
-        border-right: 1px solid rgba(0, 0, 0, 0.08);
-        padding-right: 24px;
       }
-      .copy {
-        font-family: '{{font_family}}', serif;
-        font-size: clamp(28px, 5vw, 68px);
-        line-height: 1.3;
-        font-weight: 700;
-        letter-spacing: 0.06em;
-        margin: 4vh 0 2vh;
-        text-wrap: balance;
-      }
-      .sub {
-        margin-top: 14px;
-        font-size: 14px;
-        opacity: 0.75;
-      }
-      .cta {
-        display: inline-block;
-        margin-top: 28px;
-        padding: 14px 20px;
-        border: 1px solid var(--ink);
-        text-decoration: none;
-        color: var(--ink);
-        transition: 0.2s ease;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        background: linear-gradient(#fff0, #00000008);
-      }
-      .cta:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-      }
-      .story-wrap { position: relative; }
-      .story-label {
+      
+      /* Vertical title on the side */
+      .vertical-title {
         position: absolute;
-        top: -10px;
-        right: 0;
-        font-size: 12px;
+        right: 20px;
+        top: 80px;
+        writing-mode: vertical-rl;
+        font-family: 'Noto Serif JP', serif;
+        font-size: 14px;
+        font-weight: 300;
         letter-spacing: 0.3em;
+        color: var(--muted);
         opacity: 0.6;
       }
-      .story {
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        font-family: '{{font_family}}', serif;
-        font-size: 16.5px;
-        line-height: 2.2;
-        padding: 8px 0 8px 12px;
-        border-left: 1px solid rgba(0, 0, 0, 0.08);
-        max-height: 72vh;
-        overflow: auto;
-        overscroll-behavior: contain;
-        background: repeating-linear-gradient(transparent 0 36px, rgba(0, 0, 0, 0.035) 36px 37px);
+      
+      /* Main copy - hero */
+      .main-copy {
+        font-family: 'Noto Serif JP', serif;
+        font-size: clamp(32px, 5vw, 56px);
+        font-weight: 900;
+        line-height: 1.4;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+        margin-bottom: 40px;
+        position: relative;
+        padding-left: 20px;
       }
-      .selector {
-        border-top: 1px dashed rgba(0, 0, 0, 0.2);
-        padding: 18px 36px 28px;
-        display: flex;
-        gap: 14px;
-        flex-wrap: wrap;
-        align-items: center;
+      
+      .main-copy::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: var(--accent);
       }
-      .tag {
-        border: 1px solid rgba(0, 0, 0, 0.35);
-        padding: 8px 12px;
+      
+      /* Product name */
+      .product-name {
+        font-family: 'Noto Sans JP', sans-serif;
         font-size: 13px;
-        cursor: pointer;
-        background: #fff;
-        transition: 0.2s;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 60px;
+        opacity: 0.8;
       }
-      .tag[aria-pressed='true'] {
-        background: var(--ink);
-        color: #fff;
+      
+      /* Story section */
+      .story-section {
+        margin: 60px 0;
+        padding: 40px 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
       }
-      footer {
-        padding: 18px 36px 28px;
+      
+      .story {
+        font-size: 16px;
+        line-height: 2.2;
+        letter-spacing: 0.08em;
+        color: var(--ink);
+        text-align: justify;
+        columns: 1;
+        column-gap: 40px;
+      }
+      
+      @media (min-width: 768px) {
+        .story {
+          columns: 2;
+        }
+      }
+      
+      .story p {
+        margin-bottom: 1.5em;
+        text-indent: 1em;
+      }
+      
+      .story p:first-child {
+        text-indent: 0;
+      }
+      
+      /* Copy buttons */
+      .copies {
+        margin-top: 60px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: rgba(0, 0, 0, 0.6);
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .copy-label {
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 20px;
+      }
+      
+      .tag {
+        font-family: 'Noto Serif JP', serif;
+        font-size: 15px;
+        padding: 16px 24px;
+        background: transparent;
+        border: 1px solid rgba(0,0,0,0.15);
+        color: var(--ink);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        letter-spacing: 0.05em;
+        line-height: 1.6;
+        text-align: left;
+      }
+      
+      .tag:hover {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink);
+        transform: translateX(8px);
+      }
+      
+      .tag[aria-pressed="true"] {
+        background: var(--accent);
+        color: var(--paper);
+        border-color: var(--accent);
+      }
+      
+      /* Target user info */
+      .meta {
+        margin-top: 60px;
+        padding-top: 40px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        font-family: 'Noto Sans JP', sans-serif;
         font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.1em;
       }
-      .badge {
-        font-family: '{{font_family}}', serif;
-        letter-spacing: 0.25em;
-        border-left: 3px solid var(--accent);
-        padding-left: 10px;
-      }
-      @media (max-width: 860px) {
-        .grid { grid-template-columns: 1fr; }
-        .hero { border-right: none; padding-right: 0; }
-        .story { max-height: 52vh; }
+      
+      @media (max-width: 768px) {
+        .content {
+          padding: 60px 30px;
+        }
+        
+        .vertical-title {
+          display: none;
+        }
+        
+        .main-copy {
+          font-size: 28px;
+        }
+        
+        .story {
+          columns: 1;
+          font-size: 15px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="sheet grain" role="document" aria-label="新聞広告風LP">
-      <header>
-        <div>
-          <div class="brand">{{product_name}}</div>
-          <div class="seal">{{product_category}}</div>
+    <div class="page">
+      <div class="vertical-title">{{product_category}}</div>
+      <div class="content">
+        <div class="product-name">{{product_name}}</div>
+        <h1 class="main-copy">{{main_copy}}</h1>
+        
+        <div class="story-section">
+          <div class="story">{{story}}</div>
         </div>
-        <div class="badge">{{sub_copy}}</div>
-      </header>
-      <main class="grid">
-        <section class="hero" aria-labelledby="hero-copy">
-          <h1 id="hero-copy" class="copy">{{main_copy}}</h1>
-          <p class="sub">{{sub_description}}</p>
-          <a class="cta" href="{{cta_url}}" target="_blank" rel="noopener noreferrer">{{cta_text}}</a>
-        </section>
-        <section class="story-wrap" aria-labelledby="story-title">
-          <div id="story-title" class="story-label">ユーザーストーリー</div>
-          <article class="story">{{story}}</article>
-        </section>
-      </main>
-      <div class="selector" aria-label="コピーの切り替え">
-        <span style="opacity: 0.6; font-size: 12px; letter-spacing: 0.2em">COPY</span>
-        {{copy_buttons}}
+        
+        <div class="copies">
+          <div class="copy-label">Other Copies</div>
+          {{copy_buttons}}
+        </div>
+        
+        <div class="meta">
+          {{sub_description}}
+        </div>
       </div>
-      <footer>
-        <div>© {{product_name}}</div>
-        <div>広告表現：<span style="font-family: '{{font_family}}', serif">エモーション・コピー</span></div>
-      </footer>
     </div>
-    <script>
-      const buttons = document.querySelectorAll('.tag')
-      const copyEl = document.getElementById('hero-copy')
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          buttons.forEach((b) => b.setAttribute('aria-pressed', 'false'))
-          btn.setAttribute('aria-pressed', 'true')
-          copyEl.textContent = btn.dataset.copy
-        })
-      })
-    </script>
   </body>
 </html>`
