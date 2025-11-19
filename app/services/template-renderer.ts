@@ -15,7 +15,11 @@ export interface RenderContext {
 }
 
 export class TemplateRenderer {
-  constructor(private templateHtml: string) {}
+  templateHtml: string
+
+  constructor(templateHtml: string) {
+    this.templateHtml = templateHtml
+  }
 
   render(context: RenderContext): string {
     let html = this.templateHtml

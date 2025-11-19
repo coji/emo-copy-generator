@@ -1,7 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod/v4'
 import { LoaderCircleIcon, PlusIcon, XIcon } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Form } from 'react-router'
 import type { z } from 'zod'
 import {
@@ -47,14 +47,7 @@ export const GenerationForm = ({
   })
   const brandImageList = fields.brandImages.getFieldList()
 
-  useEffect(() => {
-    if (defaultValue) {
-      form.update({
-        name: form.name,
-        value: defaultValue,
-      })
-    }
-  }, [form.update, form.name, defaultValue])
+
 
   return (
     <Card className="mx-auto w-full max-w-md">

@@ -78,3 +78,14 @@ The app uses Kysely with LibSQL. Types are auto-generated from the database sche
 - Run `pnpm kysely:codegen` to regenerate types after schema changes
 - Generated types are in `app/services/types.ts`
 - Migrations are in `migrations/` directory
+
+## Coding Standards
+
+### useEffect Policy
+**Use only for external synchronization** (APIs, DOM, timers).
+- **Anti-patterns**: Derived state, prop copying, logic on flag changes, user actions (use handlers instead).
+- **Principles**:
+  1. Compute during render.
+  2. User actions -> Event handlers.
+  3. Effects -> External systems only.
+  4. **Must comment** what external resource is being synchronized.
