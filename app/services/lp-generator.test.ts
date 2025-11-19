@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { generateLandingPageHtml } from './lp-generator'
 import { newspaperTemplate } from './lp-templates'
 

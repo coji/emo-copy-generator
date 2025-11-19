@@ -47,8 +47,6 @@ export const GenerationForm = ({
   })
   const brandImageList = fields.brandImages.getFieldList()
 
-
-
   return (
     <Card className="mx-auto w-full max-w-md">
       <CardContent className="pt-8">

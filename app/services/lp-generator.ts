@@ -38,8 +38,6 @@ function validateColor(color: string): string {
   return '#000000' // Default to black if invalid
 }
 
-
-
 function validateFontFamily(font: string): string {
   if (ALLOWED_FONTS.includes(font)) {
     return font
@@ -131,5 +129,3 @@ export function generateLandingPageHtml(options: GenerateOptions): string {
     fontFamily,
   })
 }
-
-

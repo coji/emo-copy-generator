@@ -42,7 +42,6 @@ export class TemplateRenderer {
       return replacements[match] ?? match
     })
   }
-
 }
 
 export function escapeHtml(text: string): string {
