@@ -17,6 +17,8 @@ Emo Copy Generator - A React Router application that generates emotional copy te
 
 ## Development Commands
 
+> **Note**: This project is configured to auto-format on save using Prettier (see `.vscode/settings.json`).
+
 ```bash
 # Development
 pnpm dev              # Start dev server with HMR on http://localhost:5173
@@ -93,3 +95,10 @@ The app uses Kysely with LibSQL. Types are auto-generated from the database sche
   2. User actions -> Event handlers.
   3. Effects -> External systems only.
   4. **Must comment** what external resource is being synchronized.
+
+### Code Formatting Policy
+
+**Always run `pnpm format:fix` after writing or editing code files.**
+
+- This ensures consistent code style across the project.
+- Run the command automatically after making changes to `.ts`, `.tsx`, `.js`, `.jsx`, `.json`, or `.md` files.
