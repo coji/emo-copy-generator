@@ -1,3 +1,5 @@
+import { TemplateRenderer, escapeHtml } from './template-renderer'
+
 interface GenerateOptions {
   template: {
     baseHtml: string
@@ -35,6 +37,8 @@ function validateColor(color: string): string {
   }
   return '#000000' // Default to black if invalid
 }
+
+
 
 function validateFontFamily(font: string): string {
   if (ALLOWED_FONTS.includes(font)) {
@@ -95,38 +99,6 @@ export function generateLandingPageHtml(options: GenerateOptions): string {
     )
     .join('')
 
-  // テンプレート変数を置換
-  let html = template.baseHtml
-
-  // 基本情報
-  html = html.replace(
-    /\{\{product_name\}\}/g,
-    escapeHtml(generationLog.productName),
-  )
-  html = html.replace(
-    /\{\{product_category\}\}/g,
-    escapeHtml(generationLog.productCategory),
-  )
-  html = html.replace(/\{\{main_copy\}\}/g, escapeHtml(mainCopy))
-  html = html.replace(/\{\{sub_copy\}\}/g, escapeHtml(subCopy))
-  html = html.replace(/\{\{story\}\}/g, escapeHtml(generationLog.story || ''))
-  html = html.replace(/\{\{cta_text\}\}/g, escapeHtml(ctaText))
-  html = html.replace(/\{\{copy_buttons\}\}/g, copyButtons)
-
-  // ターゲットユーザー情報
-  html = html.replace(
-    /\{\{target_user\}\}/g,
-    escapeHtml(generationLog.targetUserImage),
-  )
-
-  // サブ説明文を生成
-  const subDescription = `${generationLog.targetUserImage}のための${generationLog.productCategory}`
-  html = html.replace(/\{\{sub_description\}\}/g, escapeHtml(subDescription))
-
-  // OG説明文
-  const ogDescription = `${mainCopy} ${generationLog.productName}の特別なランディングページ。`
-  html = html.replace(/\{\{og_description\}\}/g, escapeHtml(ogDescription))
-
   // スタイル設定 (validated and escaped)
   const primaryColor = validateColor(
     String(finalConfig.primaryColor || '#000000'),
@@ -135,24 +107,29 @@ export function generateLandingPageHtml(options: GenerateOptions): string {
     String(finalConfig.fontFamily || 'Noto Sans JP'),
   )
 
-  html = html.replace(/\{\{primary_color\}\}/g, escapeHtml(primaryColor))
-  html = html.replace(/\{\{font_family\}\}/g, escapeHtml(fontFamily))
-
   // Add CTA URL (with safe default)
   const ctaUrl = '#' // Default to # for now, can be made configurable later
-  html = html.replace(/\{\{cta_url\}\}/g, escapeHtml(ctaUrl))
 
-  return html
+  // ターゲットユーザー情報
+  const subDescription = `${generationLog.targetUserImage}のための${generationLog.productCategory}`
+  const ogDescription = `${mainCopy} ${generationLog.productName}の特別なランディングページ。`
+
+  const renderer = new TemplateRenderer(template.baseHtml)
+  return renderer.render({
+    productName: generationLog.productName,
+    productCategory: generationLog.productCategory,
+    mainCopy,
+    subCopy,
+    story: generationLog.story || '',
+    ctaText,
+    ctaUrl,
+    copyButtons,
+    targetUserImage: generationLog.targetUserImage,
+    subDescription,
+    ogDescription,
+    primaryColor,
+    fontFamily,
+  })
 }
 
-function escapeHtml(text: string): string {
-  const map: Record<string, string> = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#x27;',
-    '/': '&#x2F;',
-  }
-  return text.replace(/[&<>"'/]/g, (s) => map[s])
-}
+
