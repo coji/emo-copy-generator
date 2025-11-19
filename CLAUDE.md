@@ -17,6 +17,8 @@ Emo Copy Generator - A React Router application that generates emotional copy te
 
 ## Development Commands
 
+> **Note**: This project is configured to auto-format on save using Prettier (see `.vscode/settings.json`).
+
 ```bash
 # Development
 pnpm dev              # Start dev server with HMR on http://localhost:5173
@@ -29,6 +31,8 @@ pnpm lint             # Run Biome linter
 pnpm format           # Check Prettier formatting
 pnpm format:fix       # Fix formatting issues
 pnpm typecheck        # Run TypeScript type checking
+pnpm test             # Run tests in watch mode
+pnpm test:run         # Run tests once (CI mode)
 pnpm validate         # Run all checks (format, lint, typecheck) in parallel
 
 # Database
@@ -78,3 +82,31 @@ The app uses Kysely with LibSQL. Types are auto-generated from the database sche
 - Run `pnpm kysely:codegen` to regenerate types after schema changes
 - Generated types are in `app/services/types.ts`
 - Migrations are in `migrations/` directory
+
+## Coding Standards
+
+### useEffect Policy
+
+**Use only for external synchronization** (APIs, DOM, timers).
+
+- **Anti-patterns**: Derived state, prop copying, logic on flag changes, user actions (use handlers instead).
+- **Principles**:
+  1. Compute during render.
+  2. User actions -> Event handlers.
+  3. Effects -> External systems only.
+  4. **Must comment** what external resource is being synchronized.
+
+### Code Formatting Policy
+
+**Always run `pnpm format:fix` after writing or editing code files.**
+
+- This ensures consistent code style across the project.
+- Run the command automatically after making changes to `.ts`, `.tsx`, `.js`, `.jsx`, `.json`, or `.md` files.
+
+### File Naming Policy
+
+**Use kebab-case for all file names.**
+
+- React components: `my-component.tsx`
+- TypeScript files: `my-service.ts`
+- Test files: `my-component.test.tsx`

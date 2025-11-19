@@ -12,7 +12,9 @@
     "format": "prettier . --check --experimental-cli",
     "format:fix": "prettier . --write --experimental-cli",
     "lint": "biome lint .",
-    "validate": "run-p format lint typecheck"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "validate": "run-p format lint typecheck test:run"
   },
   "dependencies": {
     "@ai-sdk/google": "2.0.38",
@@ -79,7 +81,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.2.2",
     "vite-plugin-devtools-json": "1.0.0",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "4.0.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

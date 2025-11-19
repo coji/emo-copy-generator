@@ -43,6 +43,7 @@ export default function Home() {
   >({
     brandImages: [''],
   })
+  const [formKey, setFormKey] = useState(0)
   const { submit, stop, isLoading, object, error } = useObject({
     api: '/api',
     schema: outputSchema,
@@ -86,6 +87,7 @@ export default function Home() {
                           key={`${ex.productName}_${ex.productCategory}`}
                           onClick={() => {
                             setDefaultValue({ ...ex })
+                            setFormKey((prev) => prev + 1)
                           }}
                           className="text-xs"
                         >
@@ -97,6 +99,7 @@ export default function Home() {
                 </DropdownMenu>
               </div>
               <GenerationForm
+                key={formKey}
                 defaultValue={defaultValue}
                 isLoading={isLoading}
                 onStop={stop}
