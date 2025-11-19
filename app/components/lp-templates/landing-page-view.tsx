@@ -1,5 +1,6 @@
 import { MinimalTemplate } from './minimal-template'
 import { NewspaperTemplate } from './newspaper-template'
+import { RelatedLPsSection } from './related-lps-section'
 
 interface SimplifiedGenerationLog {
   id: string | null
@@ -15,6 +16,13 @@ interface LandingPageViewProps {
   generationLog: SimplifiedGenerationLog
   selectedCopies: string[]
   config: Record<string, unknown>
+  relatedLPs?: Array<{
+    id: string | null
+    shareUrl: string | null
+    selectedCopies: string
+    productName: string | null
+    productCategory: string | null
+  }>
 }
 
 export function LandingPageView({
@@ -22,6 +30,7 @@ export function LandingPageView({
   generationLog,
   selectedCopies,
   config,
+  relatedLPs = [],
 }: LandingPageViewProps) {
   // Parse config if it's a string
   const parsedConfig = typeof config === 'string' ? JSON.parse(config) : config
@@ -32,25 +41,28 @@ export function LandingPageView({
       ? JSON.parse(selectedCopies)
       : selectedCopies
 
+  let templateContent: React.JSX.Element
   switch (templateId) {
     case 'newspaper':
-      return (
+      templateContent = (
         <NewspaperTemplate
           generationLog={generationLog}
           selectedCopies={parsedCopies}
           config={parsedConfig}
         />
       )
+      break
     case 'minimal':
-      return (
+      templateContent = (
         <MinimalTemplate
           generationLog={generationLog}
           selectedCopies={parsedCopies}
           config={parsedConfig}
         />
       )
+      break
     default:
-      return (
+      templateContent = (
         <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
             <h1 className="mb-4 text-2xl font-bold">
@@ -61,4 +73,16 @@ export function LandingPageView({
         </div>
       )
   }
+
+  return (
+    <>
+      {templateContent}
+      {relatedLPs.length > 0 && (
+        <RelatedLPsSection
+          relatedLPs={relatedLPs}
+          currentGenerationLog={generationLog}
+        />
+      )}
+    </>
+  )
 }

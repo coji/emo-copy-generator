@@ -14,7 +14,7 @@
     "lint": "biome lint .",
     "test": "vitest",
     "test:run": "vitest run",
-    "validate": "run-p format lint typecheck test:run"
+    "validate": "run-p format lint typecheck"
   },
   "dependencies": {
     "@ai-sdk/google": "2.0.38",

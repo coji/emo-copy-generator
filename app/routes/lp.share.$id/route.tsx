@@ -56,28 +56,87 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     .where('id', '=', landingPage.id)
     .execute()
 
-  return { landingPage }
+  // 関連LPを取得（同じカテゴリの他のLP）
+  const relatedLPs = await db
+    .selectFrom('landingPages')
+    .leftJoin(
+      'generationLogs',
+      'landingPages.generationLogId',
+      'generationLogs.id',
+    )
+    .select([
+      'landingPages.id',
+      'landingPages.shareUrl',
+      'landingPages.selectedCopies',
+      'generationLogs.productName',
+      'generationLogs.productCategory',
+    ])
+    .where(
+      'generationLogs.productCategory',
+      '=',
+      landingPage.productCategory || '',
+    )
+    .where('landingPages.id', '!=', landingPage.id)
+    .where('landingPages.isPublic', '=', 1)
+    .orderBy('landingPages.createdAt', 'desc')
+    .limit(4)
+    .execute()
+
+  return { landingPage, relatedLPs }
+}
+
+export const meta = ({ data }: Route.MetaArgs) => {
+  if (!data?.landingPage) {
+    return [{ title: 'ページが見つかりません' }]
+  }
+
+  const { landingPage } = data
+  const selectedCopies = JSON.parse(landingPage.selectedCopies)
+  const mainCopy = selectedCopies[0] || ''
+  const storyExcerpt = landingPage.story
+    ? `${landingPage.story.substring(0, 150)}...`
+    : ''
+
+  const title = `${mainCopy} | ${landingPage.productName}`
+  const description =
+    storyExcerpt ||
+    `${landingPage.targetUserImage}のための${landingPage.productCategory}`
+
+  return [
+    { title },
+    { name: 'description', content: description },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:site_name', content: 'エモーショナルコピージェネレーター' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
+  ]
 }
 
 export default function SharedLandingPage({
   loaderData,
 }: Route.ComponentProps) {
-  const { landingPage } = loaderData
+  const { landingPage, relatedLPs } = loaderData
+
+  const generationLog = {
+    id: landingPage.id,
+    productName: landingPage.productName || '',
+    productCategory: landingPage.productCategory || '',
+    brandImages: landingPage.brandImages || '[]',
+    targetUserImage: landingPage.targetUserImage || '',
+    story: landingPage.story,
+  }
 
   // Reactコンポーネントでレンダリング
   return (
     <LandingPageView
       templateId={landingPage.templateId}
-      generationLog={{
-        id: landingPage.id,
-        productName: landingPage.productName || '',
-        productCategory: landingPage.productCategory || '',
-        brandImages: landingPage.brandImages || '[]',
-        targetUserImage: landingPage.targetUserImage || '',
-        story: landingPage.story,
-      }}
+      generationLog={generationLog}
       selectedCopies={JSON.parse(landingPage.selectedCopies)}
       config={JSON.parse(landingPage.config)}
+      relatedLPs={relatedLPs}
     />
   )
 }

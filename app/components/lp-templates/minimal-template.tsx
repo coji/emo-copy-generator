@@ -59,8 +59,11 @@ export function MinimalTemplate({
                 'fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards',
             }}
           >
-            {generationLog.story?.split('\n\n').map((paragraph, index) => (
-              <p key={index} className="mb-6">
+            {generationLog.story?.split('\n\n').map((paragraph, idx) => (
+              <p
+                key={`para-${idx}-${paragraph.substring(0, 20)}`}
+                className="mb-6"
+              >
                 {paragraph}
               </p>
             ))}

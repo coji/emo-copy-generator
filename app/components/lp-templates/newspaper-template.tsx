@@ -13,6 +13,7 @@ interface NewspaperTemplateProps {
   selectedCopies: string[]
   config: {
     primaryColor?: string
+    accentColor?: string
     fontFamily?: string
     layout?: string
   }
@@ -23,11 +24,18 @@ export function NewspaperTemplate({
   selectedCopies,
   config = {},
 }: NewspaperTemplateProps) {
-  const [activeCopy, setActiveCopy] = useState(selectedCopies[0] || '')
+  const [activeCopy, setActiveCopy] = useState(
+    selectedCopies[0] || generationLog.productName,
+  )
 
-  const brandImages = JSON.parse(generationLog.brandImages || '[]') as string[]
+  let brandImages: string[] = []
+  try {
+    brandImages = JSON.parse(generationLog.brandImages || '[]') as string[]
+  } catch {
+    console.warn('Failed to parse brandImages, using empty array')
+  }
   const primaryColor = config.primaryColor || '#1a1a1a'
-  const accentColor = config.primaryColor || '#8b7355'
+  const accentColor = config.accentColor || config.primaryColor || '#8b7355'
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] px-4 py-[5vh]">
@@ -51,11 +59,6 @@ export function NewspaperTemplate({
 
         {/* Content */}
         <div className="relative px-[60px] py-20">
-          {/* Product name */}
-          <div className="mb-[60px] text-[13px] font-bold tracking-[0.2em] text-[#8b7355] uppercase opacity-80">
-            {generationLog.productName}
-          </div>
-
           {/* Main copy */}
           <h1
             className="relative mb-10 pl-5 text-[clamp(32px,5vw,56px)] leading-[1.4] font-black tracking-tight"
@@ -80,11 +83,11 @@ export function NewspaperTemplate({
                 color: primaryColor,
               }}
             >
-              {generationLog.story?.split('\n\n').map((paragraph, index) => (
+              {generationLog.story?.split('\n\n').map((paragraph, idx) => (
                 <p
-                  key={index}
+                  key={`para-${idx}-${paragraph.substring(0, 20)}`}
                   className="mb-6 first:indent-0"
-                  style={{ textIndent: index === 0 ? 0 : '1em' }}
+                  style={{ textIndent: idx === 0 ? 0 : '1em' }}
                 >
                   {paragraph}
                 </p>
@@ -92,37 +95,45 @@ export function NewspaperTemplate({
             </div>
           </div>
 
-          {/* Copy buttons */}
-          <div className="mt-[60px]">
-            <div className="mb-5 text-[11px] font-bold tracking-[0.2em] text-[#a39382] uppercase">
-              Other Copies
-            </div>
-            <div className="flex flex-col gap-4">
-              {selectedCopies.map((copy) => (
-                <button
-                  key={copy}
-                  type="button"
-                  onClick={() => setActiveCopy(copy)}
-                  className={`border px-6 py-4 text-left text-[15px] leading-relaxed tracking-wide transition-all duration-300 ${
-                    activeCopy === copy
-                      ? 'border-[#8b7355] bg-[#8b7355] text-[#fdfbf7]'
-                      : 'border-black/15 bg-transparent hover:translate-x-2 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-[#fdfbf7]'
-                  }`}
+          {/* Product introduction */}
+          <div className="-mx-[60px] my-[60px] border-y border-black/5 bg-gradient-to-r from-[#fafafa] to-[#f5f5f5] px-[60px] py-12">
+            <div className="mx-auto max-w-[700px]">
+              <div className="mb-8 flex items-center gap-4">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#8b7355]/30" />
+                <div className="text-[10px] font-bold tracking-[0.3em] text-[#8b7355] uppercase">
+                  About
+                </div>
+                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#8b7355]/30" />
+              </div>
+
+              <div className="text-center">
+                <h2
+                  className="mb-4 text-3xl font-bold tracking-wide"
                   style={{
                     fontFamily: "'Noto Serif JP', serif",
-                    color: activeCopy === copy ? '#fdfbf7' : primaryColor,
+                    color: primaryColor,
                   }}
                 >
-                  {copy}
-                </button>
-              ))}
+                  {generationLog.productName}
+                </h2>
+                <p className="mb-6 text-sm leading-relaxed text-[#666]">
+                  {generationLog.productCategory} /{' '}
+                  {generationLog.targetUserImage}のために
+                </p>
+                {brandImages.length > 0 && (
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {brandImages.map((image, idx) => (
+                      <span
+                        key={`brand-${idx}-${image}`}
+                        className="rounded-full border border-[#8b7355]/20 bg-white px-4 py-1.5 text-xs text-[#8b7355] shadow-sm"
+                      >
+                        {image}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-
-          {/* Meta info */}
-          <div className="mt-[60px] border-t border-black/10 pt-10 text-xs tracking-wide text-[#a39382]">
-            {generationLog.targetUserImage}のための
-            {generationLog.productCategory}
           </div>
         </div>
       </div>
