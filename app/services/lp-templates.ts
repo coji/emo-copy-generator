@@ -1,7 +1,7 @@
 // Note: Static HTML templates are no longer used.
 // The actual rendering is done by React components in app/components/lp-templates/
-const placeholderHtml = '<!DOCTYPE html><html><body>Rendered by React component</body></html>'
-
+const placeholderHtml =
+  '<!DOCTYPE html><html><body>Rendered by React component</body></html>'
 
 export interface LPTemplate {
   id: string
