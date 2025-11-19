@@ -13,7 +13,8 @@
     "format:fix": "prettier . --write --experimental-cli",
     "lint": "biome lint .",
     "test": "vitest",
-    "validate": "run-p format lint typecheck"
+    "test:run": "vitest run",
+    "validate": "run-p format lint typecheck test:run"
   },
   "dependencies": {
     "@ai-sdk/google": "2.0.38",

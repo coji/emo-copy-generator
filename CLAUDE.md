@@ -29,6 +29,8 @@ pnpm lint             # Run Biome linter
 pnpm format           # Check Prettier formatting
 pnpm format:fix       # Fix formatting issues
 pnpm typecheck        # Run TypeScript type checking
+pnpm test             # Run tests in watch mode
+pnpm test:run         # Run tests once (CI mode)
 pnpm validate         # Run all checks (format, lint, typecheck) in parallel
 
 # Database
@@ -82,7 +84,9 @@ The app uses Kysely with LibSQL. Types are auto-generated from the database sche
 ## Coding Standards
 
 ### useEffect Policy
+
 **Use only for external synchronization** (APIs, DOM, timers).
+
 - **Anti-patterns**: Derived state, prop copying, logic on flag changes, user actions (use handlers instead).
 - **Principles**:
   1. Compute during render.
