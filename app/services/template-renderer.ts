@@ -22,30 +22,25 @@ export class TemplateRenderer {
   }
 
   render(context: RenderContext): string {
-    let html = this.templateHtml
+    const replacements: Record<string, string> = {
+      '{{product_name}}': escapeHtml(context.productName),
+      '{{product_category}}': escapeHtml(context.productCategory),
+      '{{main_copy}}': escapeHtml(context.mainCopy),
+      '{{sub_copy}}': escapeHtml(context.subCopy),
+      '{{story}}': escapeHtml(context.story),
+      '{{cta_text}}': escapeHtml(context.ctaText),
+      '{{copy_buttons}}': context.copyButtons, // Already HTML
+      '{{target_user}}': escapeHtml(context.targetUserImage),
+      '{{sub_description}}': escapeHtml(context.subDescription),
+      '{{og_description}}': escapeHtml(context.ogDescription),
+      '{{primary_color}}': escapeHtml(context.primaryColor),
+      '{{font_family}}': escapeHtml(context.fontFamily),
+      '{{cta_url}}': escapeHtml(context.ctaUrl),
+    }
 
-    // Basic Info
-    html = html.replace(/\{\{product_name\}\}/g, escapeHtml(context.productName))
-    html = html.replace(/\{\{product_category\}\}/g, escapeHtml(context.productCategory))
-    html = html.replace(/\{\{main_copy\}\}/g, escapeHtml(context.mainCopy))
-    html = html.replace(/\{\{sub_copy\}\}/g, escapeHtml(context.subCopy))
-    html = html.replace(/\{\{story\}\}/g, escapeHtml(context.story))
-    html = html.replace(/\{\{cta_text\}\}/g, escapeHtml(context.ctaText))
-    html = html.replace(/\{\{copy_buttons\}\}/g, context.copyButtons) // Already HTML
-
-    // Target User Info
-    html = html.replace(/\{\{target_user\}\}/g, escapeHtml(context.targetUserImage))
-    html = html.replace(/\{\{sub_description\}\}/g, escapeHtml(context.subDescription))
-    html = html.replace(/\{\{og_description\}\}/g, escapeHtml(context.ogDescription))
-
-    // Styles
-    html = html.replace(/\{\{primary_color\}\}/g, escapeHtml(context.primaryColor))
-    html = html.replace(/\{\{font_family\}\}/g, escapeHtml(context.fontFamily))
-
-    // CTA URL
-    html = html.replace(/\{\{cta_url\}\}/g, escapeHtml(context.ctaUrl))
-
-    return html
+    return this.templateHtml.replace(/\{\{[a-z_]+\}\}/g, (match) => {
+      return replacements[match] ?? match
+    })
   }
 
 }
