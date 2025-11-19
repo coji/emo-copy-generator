@@ -1,5 +1,5 @@
-import { MinimalTemplate } from './MinimalTemplate'
-import { NewspaperTemplate } from './NewspaperTemplate'
+import { MinimalTemplate } from './minimal-template'
+import { NewspaperTemplate } from './newspaper-template'
 
 interface SimplifiedGenerationLog {
   id: string | null

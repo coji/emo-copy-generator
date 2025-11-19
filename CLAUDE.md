@@ -102,3 +102,11 @@ The app uses Kysely with LibSQL. Types are auto-generated from the database sche
 
 - This ensures consistent code style across the project.
 - Run the command automatically after making changes to `.ts`, `.tsx`, `.js`, `.jsx`, `.json`, or `.md` files.
+
+### File Naming Policy
+
+**Use kebab-case for all file names.**
+
+- React components: `my-component.tsx`
+- TypeScript files: `my-service.ts`
+- Test files: `my-component.test.tsx`

@@ -1,4 +1,4 @@
-import { LandingPageView } from '~/components/lp-templates/LandingPageView'
+import { LandingPageView } from '~/components/lp-templates/landing-page-view'
 import { db } from '~/services/db.server'
 import type { Route } from './+types/route'
 
