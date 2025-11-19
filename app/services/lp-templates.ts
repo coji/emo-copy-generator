@@ -1,5 +1,7 @@
-import { minimalHtml } from './templates/minimal'
-import { newspaperHtml } from './templates/newspaper'
+// Note: Static HTML templates are no longer used.
+// The actual rendering is done by React components in app/components/lp-templates/
+const placeholderHtml = '<!DOCTYPE html><html><body>Rendered by React component</body></html>'
+
 
 export interface LPTemplate {
   id: string
@@ -25,7 +27,7 @@ export const newspaperTemplate: LPTemplate = {
     fontFamily: 'Shippori Mincho',
     layout: 'default',
   },
-  base_html: newspaperHtml,
+  base_html: placeholderHtml,
 }
 
 export const minimalTemplate: LPTemplate = {
@@ -38,7 +40,7 @@ export const minimalTemplate: LPTemplate = {
     fontFamily: 'Noto Sans JP',
     layout: 'minimal',
   },
-  base_html: minimalHtml,
+  base_html: placeholderHtml,
 }
 
 export const templates: LPTemplate[] = [newspaperTemplate, minimalTemplate]
