@@ -35,14 +35,30 @@ export const action = async ({ request }: Route.ActionArgs) => {
   return { lastResult: submission.reply() }
 }
 
-export default function Home() {
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const url = new URL(request.url)
+  const productName = url.searchParams.get('productName') ?? undefined
+  const productCategory = url.searchParams.get('productCategory') ?? undefined
+  const targetUserImage = url.searchParams.get('targetUserImage') ?? undefined
+  const brandImagesParam = url.searchParams.get('brandImages')
+  const brandImages = brandImagesParam ? brandImagesParam.split(',') : ['']
+
+  return {
+    defaultValue: {
+      productName,
+      productCategory,
+      targetUserImage,
+      brandImages,
+    },
+  }
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
   const [isGenerated, setIsGenerated] = useState(false)
   const [generationLogId, setGenerationLogId] = useState<string | null>(null)
   const [defaultValue, setDefaultValue] = useState<
     Partial<z.infer<typeof inputSchema>>
-  >({
-    brandImages: [''],
-  })
+  >(loaderData.defaultValue)
   const [formKey, setFormKey] = useState(0)
   const { submit, stop, isLoading, object, error } = useObject({
     api: '/api',
