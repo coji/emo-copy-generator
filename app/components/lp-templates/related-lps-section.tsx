@@ -35,7 +35,7 @@ export function RelatedLPsSection({
   }).toString()}`
 
   return (
-    <div className="border-t border-black/5 bg-gradient-to-b from-white to-gray-50/50 px-6 py-16 md:px-12">
+    <div className="border-t border-black/5 bg-linear-to-b from-white to-gray-50/50 px-6 py-16 md:px-12">
       <div className="mx-auto max-w-6xl">
         {/* Create Similar CTA */}
         <div className="mb-12 text-center">
@@ -47,7 +47,7 @@ export function RelatedLPsSection({
           </p>
           <Link
             to={createSimilarUrl}
-            className="inline-block rounded-lg bg-gradient-to-r from-[#667eea] to-[#764ba2] px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            className="inline-block rounded-lg bg-linear-to-r from-[#667eea] to-[#764ba2] px-8 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
           >
             コピーを作成する
           </Link>

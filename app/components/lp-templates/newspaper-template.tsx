@@ -24,7 +24,7 @@ export function NewspaperTemplate({
   selectedCopies,
   config = {},
 }: NewspaperTemplateProps) {
-  const [activeCopy, setActiveCopy] = useState(
+  const [activeCopy, _setActiveCopy] = useState(
     selectedCopies[0] || generationLog.productName,
   )
 
@@ -38,8 +38,8 @@ export function NewspaperTemplate({
   const accentColor = config.accentColor || config.primaryColor || '#8b7355'
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] px-4 py-[5vh]">
-      <div className="relative mx-auto max-w-[900px] bg-[#fdfbf7] shadow-2xl">
+    <div className="min-h-screen bg-linear-to-b from-[#2a2a2a] to-[#1a1a1a] px-4 py-[5vh]">
+      <div className="relative mx-auto max-w-225 bg-[#fdfbf7] shadow-2xl">
         {/* Paper texture overlay */}
         <div
           className="pointer-events-none absolute inset-0 opacity-30"
@@ -58,7 +58,7 @@ export function NewspaperTemplate({
         </div>
 
         {/* Content */}
-        <div className="relative px-[60px] py-20">
+        <div className="relative px-15 py-20">
           {/* Main copy */}
           <h1
             className="relative mb-10 pl-5 text-[clamp(32px,5vw,56px)] leading-[1.4] font-black tracking-tight"
@@ -75,7 +75,7 @@ export function NewspaperTemplate({
           </h1>
 
           {/* Story section */}
-          <div className="my-[60px] border-t border-b border-black/10 py-10">
+          <div className="my-15 border-t border-b border-black/10 py-10">
             <div
               className="columns-1 gap-10 text-justify text-base leading-[2.2] tracking-[0.08em] md:columns-2"
               style={{
@@ -96,14 +96,14 @@ export function NewspaperTemplate({
           </div>
 
           {/* Product introduction */}
-          <div className="-mx-[60px] my-[60px] border-y border-black/5 bg-gradient-to-r from-[#fafafa] to-[#f5f5f5] px-[60px] py-12">
-            <div className="mx-auto max-w-[700px]">
+          <div className="-mx-15 my-15 border-y border-black/5 bg-linear-to-r from-[#fafafa] to-[#f5f5f5] px-15 py-12">
+            <div className="mx-auto max-w-175">
               <div className="mb-8 flex items-center gap-4">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#8b7355]/30" />
+                <div className="h-px flex-1 bg-linear-to-r from-transparent to-[#8b7355]/30" />
                 <div className="text-[10px] font-bold tracking-[0.3em] text-[#8b7355] uppercase">
                   About
                 </div>
-                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#8b7355]/30" />
+                <div className="h-px flex-1 bg-linear-to-l from-transparent to-[#8b7355]/30" />
               </div>
 
               <div className="text-center">

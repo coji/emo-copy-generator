@@ -13,7 +13,7 @@ export const createModel = ({
   api: 'emo-copy-generator'
 }) => {
   const baseModel = match(provider)
-    .with('google', () => google('gemini-2.5-flash-lite'))
+    .with('google', () => google('gemini-3-flash-preview'))
     .with('openai', () => openai('gpt-5-nano'))
     .exhaustive()
   return wrapLanguageModel({

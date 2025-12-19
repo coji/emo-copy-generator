@@ -19,6 +19,7 @@ import { Card, CardContent, CardFooter } from '~/components/ui/card'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
 import { HStack, Stack } from '~/components/ui/stack'
+import { Textarea } from '~/components/ui/textarea'
 import { inputSchema } from '~/routes/api'
 
 const brandImagePlaceholders = ['例: 高級感', '例: 若者向け', '例: 女性向け']
@@ -26,11 +27,13 @@ const brandImagePlaceholders = ['例: 高級感', '例: 若者向け', '例: 女
 export const GenerationForm = ({
   defaultValue,
   isLoading,
+  isThinking,
   onStop,
   onSubmit,
 }: {
   defaultValue?: Partial<z.infer<typeof inputSchema>>
   isLoading: boolean
+  isThinking: boolean
   onStop: () => void
   onSubmit: (values: z.infer<typeof inputSchema>) => void
 }) => {
@@ -145,9 +148,12 @@ export const GenerationForm = ({
               <Label htmlFor={fields.targetUserImage.id}>
                 ターゲットユーザーのイメージ
               </Label>
-              <Input
-                {...getInputProps(fields.targetUserImage, { type: 'text' })}
-                placeholder={'例: 20代都心で働く女性'}
+              <Textarea
+                id={fields.targetUserImage.id}
+                name={fields.targetUserImage.name}
+                defaultValue={fields.targetUserImage.initialValue}
+                placeholder={'例: 40代〜60代の健康を気にし始めた男女'}
+                rows={2}
               />
               <div
                 id={fields.targetUserImage.errorId}
@@ -169,7 +175,7 @@ export const GenerationForm = ({
             className="flex-1"
           >
             {isLoading && <LoaderCircleIcon className="animate-spin" />}
-            生成する
+            {isThinking ? '考え中...' : isLoading ? '生成中...' : '生成する'}
           </Button>
 
           {isLoading && (

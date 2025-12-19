@@ -1,20 +1,32 @@
 [
   {
-    "productName": "神生ビール",
-    "productCategory": "ビール",
-    "brandImages": ["高級感", "若者向け", "女性向け"],
-    "targetUserImage": "20代都心で働く女性"
+    "productName": "養命酒",
+    "productCategory": "薬用酒",
+    "brandImages": ["伝統", "健康", "信頼"],
+    "targetUserImage": "40代〜60代の健康を気にし始めた男女"
   },
   {
-    "productName": "アストラル",
-    "productCategory": "EVスポーツセダン",
-    "brandImages": ["最先端", "超高級", "スポーティ"],
-    "targetUserImage": "30代~60代の富裕層"
+    "productName": "サントリー天然水",
+    "productCategory": "ミネラルウォーター",
+    "brandImages": ["自然", "清涼感", "安心"],
+    "targetUserImage": "30代〜50代の健康志向のファミリー層"
   },
   {
-    "productName": "Luna",
-    "productCategory": "スマートフォン",
-    "brandImages": ["最先端", "仲間内で楽しい", "女性向け"],
-    "targetUserImage": "10代後半~20代前半のZ世代女性"
+    "productName": "ゼクシオ",
+    "productCategory": "ゴルフクラブ",
+    "brandImages": ["飛距離", "やさしさ", "上質"],
+    "targetUserImage": "50代〜70代のゴルフを楽しむシニア男性"
+  },
+  {
+    "productName": "パナソニック ナノケア",
+    "productCategory": "ドライヤー",
+    "brandImages": ["美髪", "先進技術", "プレミアム"],
+    "targetUserImage": "30代〜50代の美意識の高い女性"
+  },
+  {
+    "productName": "ダイワハウス",
+    "productCategory": "注文住宅",
+    "brandImages": ["安心", "長寿命", "快適"],
+    "targetUserImage": "30代〜40代のマイホームを検討中の夫婦"
   }
 ]

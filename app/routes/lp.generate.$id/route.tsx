@@ -175,17 +175,19 @@ export default function LPGenerate({
               </CardHeader>
               <CardContent>
                 <Stack>
-                  {candidates.map((copy: string) => (
-                    <label key={copy} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        name="selectedCopies"
-                        value={copy}
-                        className="rounded"
-                      />
-                      <span>{copy}</span>
-                    </label>
-                  ))}
+                  {candidates
+                    .filter((copy: string) => copy?.trim())
+                    .map((copy: string) => (
+                      <label key={copy} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          name="selectedCopies"
+                          value={copy}
+                          className="rounded"
+                        />
+                        <span>{copy}</span>
+                      </label>
+                    ))}
                 </Stack>
               </CardContent>
             </Card>
