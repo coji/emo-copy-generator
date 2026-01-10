@@ -1,6 +1,6 @@
 import { google } from '@ai-sdk/google'
 import { openai } from '@ai-sdk/openai'
-import type { LanguageModelV2StreamPart } from '@ai-sdk/provider'
+import type { LanguageModelV3StreamPart } from '@ai-sdk/provider'
 import { wrapLanguageModel } from 'ai'
 import { getUsage } from 'tokenlens'
 import { match } from 'ts-pattern'
@@ -19,17 +19,23 @@ export const createModel = ({
   return wrapLanguageModel({
     model: baseModel,
     middleware: {
+      specificationVersion: 'v3',
       wrapStream: async ({ doStream }) => {
         const { stream, ...rest } = await doStream()
         const transformStream = new TransformStream<
-          LanguageModelV2StreamPart,
-          LanguageModelV2StreamPart
+          LanguageModelV3StreamPart,
+          LanguageModelV3StreamPart
         >({
           transform(chunk, controller) {
             if (chunk.type === 'finish') {
+              // Convert LanguageModelV3Usage to UsageLike format for tokenlens
+              const usageLike = {
+                input_tokens: chunk.usage.inputTokens.total,
+                output_tokens: chunk.usage.outputTokens.total,
+              }
               const usage = getUsage({
                 modelId: baseModel.modelId,
-                usage: chunk.usage,
+                usage: usageLike,
               })
               console.log({
                 modelId: baseModel.modelId,
@@ -42,7 +48,7 @@ export const createModel = ({
           },
         })
 
-        return { stream: stream.pipeThrough(transformStream), rest }
+        return { stream: stream.pipeThrough(transformStream), ...rest }
       },
     },
   })
