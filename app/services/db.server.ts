@@ -1,15 +1,21 @@
-import { createClient } from '@libsql/client/web'
+import { createClient as createNodeClient } from '@libsql/client'
+import { createClient as createWebClient } from '@libsql/client/web'
 import { LibsqlDialect } from '@libsql/kysely-libsql'
 import { CamelCasePlugin, Kysely } from 'kysely'
 import type { DB } from './types'
 
-export const db = new Kysely<DB>({
-  dialect: new LibsqlDialect({
-    client: createClient({
-      url: process.env.DATABASE_URL!,
+const databaseUrl = process.env.DATABASE_URL!
+const isLocalFile = databaseUrl.startsWith('file:')
+
+const client = isLocalFile
+  ? createNodeClient({ url: databaseUrl })
+  : createWebClient({
+      url: databaseUrl,
       authToken: process.env.TURSO_AUTH_TOKEN,
-      // biome-ignore lint/suspicious/noExplicitAny: latest turso client is not compatible with types
-    }) as any,
-  }),
+    })
+
+export const db = new Kysely<DB>({
+  // biome-ignore lint/suspicious/noExplicitAny: libsql client types mismatch
+  dialect: new LibsqlDialect({ client: client as any }),
   plugins: [new CamelCasePlugin()],
 })
