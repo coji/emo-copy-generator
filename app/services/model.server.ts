@@ -29,9 +29,10 @@ export const createModel = ({
           transform(chunk, controller) {
             if (chunk.type === 'finish') {
               // Convert LanguageModelV3Usage to UsageLike format for tokenlens
+              // Use defensive access in case usage data is incomplete
               const usageLike = {
-                input_tokens: chunk.usage.inputTokens.total,
-                output_tokens: chunk.usage.outputTokens.total,
+                input_tokens: chunk.usage?.inputTokens?.total ?? 0,
+                output_tokens: chunk.usage?.outputTokens?.total ?? 0,
               }
               const usage = getUsage({
                 modelId: baseModel.modelId,
